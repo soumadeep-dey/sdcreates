@@ -1,0 +1,58 @@
+[
+  {
+    "day": 1,
+    "title": "Introduction",
+    "mentor": "Soumadeep Dey",
+    "role": "Host & Organiser",
+    "description": "Opening of the Namashkar Kolkata Festival — celebrating 1 year of the platform and launching a 7-day creative journey.",
+    "image": null
+  },
+  {
+    "day": 2,
+    "title": "Street & Documentary Photography",
+    "mentor": "Soumya Shankar Ghosal",
+    "role": "Street & Documentary Photographer",
+    "description": "An Official Canon EOS Maestro who was asked by Facebook as the curator of India's first official Instagram exhibition. His works were published in National Geographic Traveler India, Lonely Planet, CNN Travel, India Today, and was a keynote speaker at the U.S. Consulate General Kolkata ECO Cinema 2019 International Film Festival.",
+    "image": "/assets/namashkar-kolkata/nkf/Soumya Sankar Ghosal.webp"
+  },
+  {
+    "day": 3,
+    "title": "Portrait Photography",
+    "mentor": "Abhraneel Malakar",
+    "role": "Portrait Photographer",
+    "description": "Mentor and Influencer of Nikon India. Brand Ambassador of Godox India Official.",
+    "image": "/assets/namashkar-kolkata/nkf/Abhraneel Malakar.webp"
+  },
+  {
+    "day": 4,
+    "title": "Visual Art & Storyboarding",
+    "mentor": "Aniket Mitra",
+    "role": "Visual Art and Storyboard Artist",
+    "description": "Gold Medallist in Graphic Design from Government College of Art and Craft, Calcutta. Director of 'The Paper Boy', a short film that won multiple accolades across renowned film festivals and a Storyboard & Concept Artist in the Indian Film Industry.",
+    "image": "/assets/namashkar-kolkata/nkf/Aniket Mitra.webp"
+  },
+  {
+    "day": 5,
+    "title": "Radio & Media",
+    "mentor": "RJ Abhishek Gupta",
+    "role": "Radio Jockey — 93.5 FM",
+    "description": "RJ at 93.5 FM, ruling the airwaves every afternoon with lots of masala filmy news. Recognized for his filmy 'Milawat' — a cocktail of movie dialogues from various films that sound part of the same scene.",
+    "image": "/assets/namashkar-kolkata/nkf/RJ Abhishek Gupta.webp"
+  },
+  {
+    "day": 6,
+    "title": "Digital Illustration",
+    "mentor": "Poulami Chakraborty",
+    "role": "Digital Artist",
+    "description": "A self-taught artist pursuing B.Tech. Freelancer and creator of many viral illustrations.",
+    "image": "/assets/namashkar-kolkata/nkf/Poulami Chakroborty.webp"
+  },
+  {
+    "day": 7,
+    "title": "Digital Entrepreneurship",
+    "mentor": "Anubhav Mukherjee",
+    "role": "Founder — Kolkata Buzz",
+    "description": "Founded Kolkata Buzz. Story featured on renowned websites like DailyHunt and Medium. CEO of BuzzAffair Ventures (OPC) Pvt. Ltd.",
+    "image": "/assets/namashkar-kolkata/nkf/Anubhav Mukherjee.webp"
+  }
+]

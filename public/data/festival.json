@@ -1,0 +1,5 @@
+{
+  "festivalVideos": [],
+  "photowalksVideos": [],
+  "note": "Run extract.js with festival and photowalk playlist URLs to populate these arrays."
+}

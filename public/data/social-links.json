@@ -1,0 +1,28 @@
+[
+  {
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/c/SDeyProductions",
+    "label": "SDeyProductions"
+  },
+  {
+    "platform": "Instagram",
+    "url": "https://www.instagram.com/soumadeep_dey",
+    "label": "@soumadeep_dey"
+  },
+  {
+    "platform": "LinkedIn",
+    "url": "https://www.linkedin.com/in/soumadeep-dey",
+    "label": "soumadeep-dey"
+  },
+  {
+    "platform": "GitHub",
+    "url": "https://github.com/soumadeep-dey",
+    "label": "soumadeep-dey"
+  },
+  {
+    "platform": "Email",
+    "url": "mailto:contactsoumadeepdey@gmail.com",
+    "label": "contactsoumadeepdey@gmail.com"
+  },
+  { "platform": "Phone", "url": "tel:+916291528931", "label": "+91 6291528931" }
+]

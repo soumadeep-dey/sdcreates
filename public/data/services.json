@@ -1,0 +1,117 @@
+[
+  {
+    "id": "cinematography",
+    "icon": "🎬",
+    "title": "Cinematography & Direction",
+    "description": "Short films, music videos, brand films, events — scripted, shot, and edited with cinematic intent. Every project is treated with the same level of precision and storytelling.",
+    "tags": [
+      "Cinematography",
+      "Direction",
+      "Camera Operation",
+      "Visual Storytelling",
+      "Shot Composition",
+      "Lighting Setup"
+    ]
+  },
+  {
+    "id": "photography",
+    "icon": "📷",
+    "title": "Photography & Graphic Design",
+    "description": "Posters, banners, photo editing, thumbnails, photo manipulation and retouching. Visual identity built with intention.",
+    "tags": [
+      "Photo Editing",
+      "Graphic Design",
+      "Thumbnails",
+      "Photo Retouching",
+      "Photo Manipulation",
+      "Brand Visuals"
+    ]
+  },
+  {
+    "id": "editing",
+    "icon": "🎞️",
+    "title": "Editing & Post Production",
+    "description": "Premiere Pro & DaVinci Resolve. Cuts that breathe, pacing that feels natural. Every edit is a narrative choice.",
+    "tags": [
+      "Adobe Premiere Pro",
+      "DaVinci Resolve",
+      "Reel Editing",
+      "Commercial Editing"
+    ]
+  },
+  {
+    "id": "color",
+    "icon": "🎨",
+    "title": "Color Grading & Motion Graphics",
+    "description": "Color that tells the story — from cinematic LUTs to data-driven brand palettes. Motion graphics that elevate the final film.",
+    "tags": [
+      "Color Grading",
+      "DaVinci Resolve",
+      "After Effects",
+      "Motion Graphics",
+      "Visual Effects"
+    ]
+  },
+  {
+    "id": "sound",
+    "icon": "🔊",
+    "title": "Sound Design & Audio Production",
+    "description": "Foley, scoring, mixing and mastering — sound is 50% of the film. I don't leave it to chance.",
+    "tags": [
+      "Sound Design",
+      "Foley",
+      "Dubbing",
+      "Audio Mixing",
+      "Audio Mastering",
+      "SFX Design",
+      "Adobe Audition"
+    ]
+  },
+  {
+    "id": "weddings",
+    "icon": "💒",
+    "title": "Cinematic Weddings & Event Films",
+    "description": "Weddings, corporate events, live concerts, stage productions — captured beautifully, told honestly. Cinematic storytelling for life's biggest moments.",
+    "tags": [
+      "Wedding Films",
+      "Event Coverage",
+      "Corporate Events",
+      "Live Concerts"
+    ]
+  },
+  {
+    "id": "web",
+    "icon": "💻",
+    "title": "Web Development",
+    "description": "Full-stack MERN engineer. React, Node, PostgreSQL, TypeScript — production-grade web applications built to scale.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "REST APIs"
+    ]
+  },
+  {
+    "id": "app",
+    "icon": "📱",
+    "title": "App Development",
+    "description": "Cross-platform mobile apps with React Native. Native navigation, API integration, and polished user experiences.",
+    "tags": ["React Native", "Cross-Platform", "API Integration", "Mobile UX"]
+  },
+  {
+    "id": "marketing",
+    "icon": "📢",
+    "title": "Digital & Social Media Marketing",
+    "description": "End-to-end digital brand promotion, campaign ideation, content creation, and community engagement. Organic reach growth and conversion-focused content strategy.",
+    "tags": [
+      "Content Strategy",
+      "Instagram Growth",
+      "SEO",
+      "Brand Development",
+      "Meta Ads",
+      "Analytics"
+    ]
+  }
+]

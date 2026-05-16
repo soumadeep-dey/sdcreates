@@ -1,0 +1,173 @@
+[
+  {
+    "brand": "Coca-Cola",
+    "folder": "cococola",
+    "logo": "cococola.png",
+    "images": ["cococola1.webp", "cococola2.webp", "cococola3.webp"],
+    "videos": []
+  },
+  {
+    "brand": "SVF",
+    "folder": "svf",
+    "logo": "svf.png",
+    "images": [
+      "svf1.webp",
+      "svf2.webp",
+      "svf3.webp",
+      "svf4.webp",
+      "svf5.webp",
+      "svf6.webp",
+      "svf7.webp",
+      "svf8.webp",
+      "svf-music1.webp"
+    ],
+    "videos": []
+  },
+  {
+    "brand": "Hoichoi",
+    "folder": "hoichoi",
+    "logo": "hoichoi.png",
+    "images": [
+      "hoichoi1.webp",
+      "hoichoi2.webp",
+      "hoichoi3.webp",
+      "hoichoi4.webp",
+      "hoichoi5.webp",
+      "hoichoi6.webp",
+      "hoichoi7.webp",
+      "hoichoi8.webp",
+      "hoichoi9.webp",
+      "hoichoi10.webp",
+      "hoichoi11.webp",
+      "hoichoi12.webp",
+      "hoichoi13.webp",
+      "hoichoi14.webp",
+      "hoichoi15.webp",
+      "hoichoi16.webp",
+      "hoichoi17.webp",
+      "hoichoi18.webp",
+      "hoichoi19.webp",
+      "hoichoi20.webp",
+      "hoichoi21.webp"
+    ],
+    "videos": []
+  },
+  {
+    "brand": "Saregama",
+    "folder": "saregama",
+    "logo": "saregama.png",
+    "images": ["saregama.webp", "saregama1.webp", "saregama2.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Red Bull",
+    "folder": "redbull",
+    "logo": "redbull.png",
+    "images": ["redbull1.webp", "redbull2.webp", "redbull3.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Big Bazaar",
+    "folder": "big-bazar",
+    "logo": "big-bazar.png",
+    "images": ["big-bazar1.webp", "big-bazar2.webp", "big-bazar3.webp"],
+    "videos": []
+  },
+  {
+    "brand": "AB's Restaurant",
+    "folder": "abs",
+    "logo": "abs-resturant.png",
+    "images": ["abs1.webp", "abs2.webp", "abs3.webp", "abs4.webp"],
+    "videos": []
+  },
+  {
+    "brand": "AIESEC",
+    "folder": "aiesec",
+    "logo": "aiesec.png",
+    "images": ["aiesec1.webp", "aiesec2.webp", "aiesec3.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Techno India University",
+    "folder": "techno-india",
+    "logo": "techno-india-university.png",
+    "images": ["techno-india.webp", "techno-india1.webp", "techno-india2.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Guru Nanak Institute of Technology",
+    "folder": "Guru-Nanak-Institute-of-Technology",
+    "logo": "Guru-Nanak-Institute-of-Technology.png",
+    "images": [
+      "Guru-Nanak-Institute-of-Technology1.webp",
+      "Guru-Nanak-Institute-of-Technology2.webp"
+    ],
+    "videos": []
+  },
+  {
+    "brand": "Rotaract Club",
+    "folder": "rotaract-club",
+    "logo": "rotaract-club.png",
+    "images": [
+      "rotaract-club1.webp",
+      "rotaract-club2.webp",
+      "rotaract-club3.webp"
+    ],
+    "videos": []
+  },
+  {
+    "brand": "Nababiana Restaurant",
+    "folder": "nababiana",
+    "logo": "nababiana.png",
+    "images": ["nababiana.webp", "nababiana1.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Uribaba",
+    "folder": "uribaba",
+    "logo": "uribaba.png",
+    "images": ["uribaba1.webp", "uribaba2.webp", "uribaba3.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Ecclesiastes Café",
+    "folder": "ecclesiastes-cafe",
+    "logo": null,
+    "images": [
+      "ecclesiastescafe.webp",
+      "ecclesiastescafe1.webp",
+      "ecclesiastescafe2.webp",
+      "ecclesiastescafe3.webp",
+      "ecclesiastescafe4.webp"
+    ],
+    "videos": []
+  },
+  {
+    "brand": "Tango App",
+    "folder": "tango-app",
+    "logo": null,
+    "images": ["tango.webp", "tango2.webp", "tango3.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Music Video Promotion",
+    "folder": "music-video-promotion",
+    "logo": null,
+    "images": ["music-promotion.webp", "music-promotion2.webp"],
+    "videos": []
+  },
+  {
+    "brand": "Event Promotions",
+    "folder": "event",
+    "logo": null,
+    "images": [
+      "event1.webp",
+      "event2.webp",
+      "event3.webp",
+      "event4.webp",
+      "event5.webp",
+      "event6.webp"
+    ],
+    "videos": []
+  }
+]

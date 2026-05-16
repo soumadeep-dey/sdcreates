@@ -1,0 +1,206 @@
+{
+  "creative": [
+    {
+      "category": "Video Production",
+      "skills": [
+        "Cinematography",
+        "Direction",
+        "Camera Operation",
+        "Visual Storytelling",
+        "Shot Composition",
+        "Lighting Setup",
+        "Commercial Shoots",
+        "Reel Production"
+      ]
+    },
+    {
+      "category": "Editing & Post Production",
+      "skills": [
+        "Adobe Premiere Pro",
+        "DaVinci Resolve",
+        "Adobe After Effects",
+        "Color Grading",
+        "Motion Graphics",
+        "Visual Effects",
+        "Reel Editing",
+        "Commercial Editing"
+      ]
+    },
+    {
+      "category": "Photography & Design",
+      "skills": [
+        "Adobe Photoshop",
+        "Adobe Lightroom",
+        "Photo Retouching",
+        "Thumbnail Design",
+        "Brand Visual Design"
+      ]
+    },
+    {
+      "category": "Audio Engineering",
+      "skills": [
+        "Adobe Audition",
+        "Foley",
+        "Sound Design",
+        "Dubbing",
+        "Audio Mixing",
+        "Audio Mastering",
+        "SFX Design"
+      ]
+    },
+    {
+      "category": "Production Equipment",
+      "skills": [
+        "Sony Cameras",
+        "Canon Cameras",
+        "Gimbal Operation",
+        "Tripod Systems",
+        "Dolly & Slider Movement",
+        "Lighting Rigs",
+        "Audio Recording Equipment"
+      ]
+    }
+  ],
+  "engineering": [
+    {
+      "category": "Languages",
+      "skills": ["TypeScript", "JavaScript (ES6+)", "Python", "Java"]
+    },
+    {
+      "category": "Frontend",
+      "skills": [
+        "React",
+        "React Router",
+        "Redux Toolkit",
+        "Zustand",
+        "TanStack Query",
+        "Shadcn UI",
+        "Tailwind CSS",
+        "Material UI",
+        "Bootstrap",
+        "HTML5",
+        "CSS3"
+      ]
+    },
+    {
+      "category": "Mobile Development",
+      "skills": [
+        "React Native",
+        "Cross-Platform App Development",
+        "Native Navigation",
+        "API Integration"
+      ]
+    },
+    {
+      "category": "Backend",
+      "skills": [
+        "Node.js",
+        "Express.js",
+        "RESTful APIs",
+        "TypeORM",
+        "Prisma",
+        "Mongoose",
+        "JWT",
+        "Bcrypt",
+        "OAuth",
+        "Passport.js",
+        "Multer"
+      ]
+    },
+    {
+      "category": "Databases",
+      "skills": ["PostgreSQL", "MongoDB", "MySQL"]
+    },
+    {
+      "category": "Testing & Debugging",
+      "skills": [
+        "Vitest",
+        "Jest",
+        "Postman",
+        "Chrome DevTools",
+        "React DevTools",
+        "Redux DevTools"
+      ]
+    },
+    {
+      "category": "Version Control & Deployment",
+      "skills": [
+        "Git",
+        "GitHub",
+        "CI/CD Pipelines",
+        "Vercel",
+        "Render",
+        "Plesk",
+        "cPanel",
+        "Linux"
+      ]
+    }
+  ],
+  "marketing": [
+    {
+      "category": "Content Strategy",
+      "skills": [
+        "Short-form Content Strategy",
+        "Audience Retention Strategy",
+        "Viral Content Planning",
+        "Platform Optimization",
+        "Content Calendar Planning"
+      ]
+    },
+    {
+      "category": "Social Media Growth",
+      "skills": [
+        "Instagram Growth Strategy",
+        "Community Building",
+        "Engagement Optimization",
+        "Organic Reach Growth",
+        "Reel Strategy"
+      ]
+    },
+    {
+      "category": "Brand Development",
+      "skills": [
+        "Creative Branding",
+        "Campaign Direction",
+        "Digital Presence Building",
+        "Visual Identity Development",
+        "Brand Storytelling"
+      ]
+    },
+    {
+      "category": "SEO & Performance Marketing",
+      "skills": [
+        "Search Engine Optimization",
+        "Technical SEO",
+        "On-Page SEO",
+        "Keyword Research",
+        "Performance Optimization",
+        "Search Visibility Strategy"
+      ]
+    },
+    {
+      "category": "Marketing Tools & Analytics",
+      "skills": [
+        "Google Analytics",
+        "Google Search Console",
+        "Meta Business Suite",
+        "Meta Ads Manager",
+        "YouTube Studio Analytics",
+        "Performance Tracking",
+        "Audience Insights",
+        "Campaign Analysis"
+      ]
+    },
+    {
+      "category": "Digital Marketing",
+      "skills": [
+        "Social Media Marketing",
+        "Organic Marketing",
+        "Digital Campaign Strategy",
+        "Content Marketing",
+        "Audience Targeting",
+        "Conversion-Focused Content"
+      ]
+    }
+  ]
+}

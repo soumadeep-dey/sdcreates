@@ -1,0 +1,10 @@
+{
+  "videos": [],
+  "photos": [
+    "/assets/namashkar-kolkata/photowalk/photowalk1.webp",
+    "/assets/namashkar-kolkata/photowalk/photowalk2.webp",
+    "/assets/namashkar-kolkata/photowalk/photowalk3.webp",
+    "/assets/namashkar-kolkata/photowalk/photowalk4.webp"
+  ],
+  "note": "Run extract.js with photowalk playlist URL to populate the videos array."
+}

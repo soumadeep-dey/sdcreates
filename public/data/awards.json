@@ -1,0 +1,101 @@
+{
+  "creative": [
+    {
+      "id": "film-festival",
+      "title": "Heritage Film Festival 2019",
+      "subtitle": "Runners Up — Short Film Competition",
+      "description": "Two people poles apart are in a live-in-relationship. Their youthful heart is constantly struggling to make their relationship stable until a certain misunderstanding creates an everlasting destruction. JANAM: A Quest for Love also got nominated in Ecstasy Film Festival.",
+      "images": [
+        "/assets/awards/film-festival-award-1.webp",
+        "/assets/awards/film-festival-award-2.webp",
+        "/assets/awards/film-festival-award-3.webp"
+      ],
+      "videoId": "N-hDEMcIHJI",
+      "videoSlug": "films"
+    },
+    {
+      "id": "photography",
+      "title": "1st Prize — Photography Competition",
+      "subtitle": "Fanush Photography Contest 2018 · Published on cover of Heritage College Magazine",
+      "description": "Winner of Fanush Photography Contest 2018. Published on the cover of Heritage College Magazine.",
+      "images": [
+        "/assets/awards/photography-award-1.jpg",
+        "/assets/awards/photography-award-2.jpg",
+        "/assets/awards/photography-award-3.jpg",
+        "/assets/awards/photography-award-4.jpg",
+        "/assets/awards/photography-award-5.webp"
+      ]
+    },
+    {
+      "id": "statesman",
+      "title": "Published in The Statesman",
+      "subtitle": "National Newspaper Feature",
+      "description": "Featured in The Statesman — one of India's oldest national newspapers.",
+      "images": ["/assets/awards/Statesman.webp"]
+    },
+    {
+      "id": "instagram-features",
+      "title": "Featured on 1000+ Instagram Pages",
+      "subtitle": "Photography featured across 1000+ creative communities",
+      "description": "Photography and creative work featured across over 1000+ Instagram creative community pages and social media platforms.",
+      "images": [
+        "/assets/awards/feature1.webp",
+        "/assets/awards/feature2.webp",
+        "/assets/awards/feature3.webp",
+        "/assets/awards/feature4.webp",
+        "/assets/awards/feature5.webp",
+        "/assets/awards/feature6.webp",
+        "/assets/awards/feature7.webp",
+        "/assets/awards/feature8.webp",
+        "/assets/awards/feature9.webp",
+        "/assets/awards/feature10.webp",
+        "/assets/awards/feature11.webp",
+        "/assets/awards/feature12.webp"
+      ]
+    }
+  ],
+  "technical": [
+    {
+      "id": "sih",
+      "title": "Smart India Hackathon 2023",
+      "subtitle": "Ranked 7th among 74 teams · Sept 2023",
+      "description": "Proud Moment from Smart India Hackathon 2023! Our team secured 7th place among 74 teams in the internal hackathon. This journey was packed with learning, collaboration, and innovation.",
+      "images": [
+        "/assets/technical/sih/1.webp",
+        "/assets/technical/sih/2.webp",
+        "/assets/technical/sih/3.webp",
+        "/assets/technical/sih/4.webp",
+        "/assets/technical/sih/5.webp"
+      ],
+      "videoId": "s6moWG6B47I"
+    },
+    {
+      "id": "topper",
+      "title": "MCA Academic Excellence",
+      "subtitle": "Ranked 1st · SGPA 9.88 (4th Sem) & 9.08 (3rd Sem) · CGPA 9.17/10",
+      "description": "Celebrating Milestone! Ranked 1st in MCA 3rd semester with SGPA of 9.08 and MCA 4th semester with SGPA of 9.88. CGPA: 9.17/10. Jul 2024 & Dec 2023.",
+      "images": [
+        "/assets/technical/topper/1.webp",
+        "/assets/technical/topper/2.webp",
+        "/assets/technical/topper/3.webp",
+        "/assets/technical/topper/4.webp"
+      ]
+    },
+    {
+      "id": "hacktonix",
+      "title": "Hacktonix — Top 5",
+      "subtitle": "Inter-College Hackathon · Apr 2023",
+      "description": "Got selected among Top 5 in the Inter-College Hackathon Hacktonix.",
+      "images": [
+        "/assets/technical/Hacktonix 2023 Participant Certificate.webp"
+      ]
+    },
+    {
+      "id": "ipr",
+      "title": "IPR Exhibition — NEMO",
+      "subtitle": "WBSCST-organized event · Jun 2023",
+      "description": "Exhibited project NEMO in a WBSCST-organized Intellectual Property Rights Exhibition.",
+      "images": ["/assets/technical/IPR exhibition certificate.webp"]
+    }
+  ]
+}

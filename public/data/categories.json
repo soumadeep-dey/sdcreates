@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "music",
+    "label": "Music Videos",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLbgLqPqcmQFm-6T_E_f83RxQgbi8lY1_O"
+  },
+  {
+    "slug": "brand",
+    "label": "Advertisement & Brand Films",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLbgLqPqcmQFkNc3LLrR-Ir0p7bX5rHToF"
+  },
+  {
+    "slug": "films",
+    "label": "Short Films",
+    "playlistUrl": "https://youtube.com/playlist?list=PLyO1cRRxifpbTUn-AZP1fugIuwujrIW7s"
+  },
+  { "slug": "weddings", "label": "Weddings", "playlistUrl": "" },
+  {
+    "slug": "corporate",
+    "label": "Events — Corporate",
+    "playlistUrl": "https://youtube.com/playlist?list=PLbgLqPqcmQFmTRIeEknJ29xTElHoZ0Eup"
+  },
+  {
+    "slug": "live",
+    "label": "Events — Live",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLbgLqPqcmQFnCfhi9HiBiYvwIMsOBDB1L"
+  },
+  {
+    "slug": "eventsOther",
+    "label": "Events — Others",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLbgLqPqcmQFlXyvO707sRN9TC2tBnw-6Z"
+  },
+  {
+    "slug": "audio",
+    "label": "Audio Stories",
+    "playlistUrl": "https://youtube.com/playlist?list=PLyO1cRRxifpYA9JwQDurrFZBrDva-KeVU"
+  }
+]

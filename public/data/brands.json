@@ -1,0 +1,64 @@
+[
+  { "name": "Coca-Cola", "file": "cococola.png", "folder": "cococola" },
+  { "name": "SVF", "file": "svf.png", "folder": "svf" },
+  { "name": "Hoichoi", "file": "hoichoi.png", "folder": "hoichoi" },
+  { "name": "Saregama", "file": "saregama.png", "folder": "saregama" },
+  { "name": "Zee5", "file": "zee5.jpeg", "folder": null },
+  { "name": "Red Bull", "file": "redbull.png", "folder": "redbull" },
+  { "name": "Big Bazaar", "file": "big-bazar.png", "folder": "big-bazar" },
+  { "name": "AB's Restaurant", "file": "abs-resturant.png", "folder": "abs" },
+  { "name": "Havmor Ice Cream", "file": "havmor.png", "folder": null },
+  { "name": "Colombian Brew", "file": "columbian-brew.webp", "folder": null },
+  {
+    "name": "Cambridge Tea Party",
+    "file": "CambridgeTeaParty.png",
+    "folder": null
+  },
+  {
+    "name": "Country Beans Coffee",
+    "file": "country-bean.jpeg",
+    "folder": null
+  },
+  {
+    "name": "Didier & Frank Chocolate",
+    "file": "didier and friank.png",
+    "folder": null
+  },
+  { "name": "AIESEC", "file": "aiesec.png", "folder": "aiesec" },
+  {
+    "name": "Techno India University",
+    "file": "techno-india-university.png",
+    "folder": "techno-india"
+  },
+  {
+    "name": "Guru Nanak Institute of Technology",
+    "file": "Guru-Nanak-Institute-of-Technology.png",
+    "folder": "Guru-Nanak-Institute-of-Technology"
+  },
+  {
+    "name": "Rotaract Club",
+    "file": "rotaract-club.png",
+    "folder": "rotaract-club"
+  },
+  {
+    "name": "Nababiana Restaurant",
+    "file": "nababiana.png",
+    "folder": "nababiana"
+  },
+  { "name": "Uribaba", "file": "uribaba.png", "folder": "uribaba" },
+  { "name": "Kunbi", "file": "kunbi.png", "folder": null },
+  { "name": "Foodpeedlers", "file": "foodpeedlers.png", "folder": null },
+  { "name": "GK Hair Professionals", "file": "gk_hair.png", "folder": null },
+  {
+    "name": "Ecclesiastes Café",
+    "file": "ecclesiastes.png",
+    "folder": "ecclesiastes-cafe"
+  },
+  { "name": "Tango App", "file": "tango.png", "folder": "tango-app" },
+  {
+    "name": "Music Video Promotion",
+    "file": null,
+    "folder": "music-video-promotion"
+  },
+  { "name": "Event Promotions", "file": null, "folder": "event" }
+]
