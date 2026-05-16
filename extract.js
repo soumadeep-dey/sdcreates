@@ -18,17 +18,19 @@
  * To use yt-dlp instead of youtube-dl, change the TOOL constant below.
  */
 
-"use strict";
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const { execSync } = require("child_process");
-const fs = require("fs");
-const path = require("path");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /* ── Configuration ─────────────────────────────────────────── */
 // Change to 'yt-dlp' if you have it installed (faster, more reliable)
 const TOOL = "yt-dlp";
 const CONFIG_FILE = path.join(__dirname, "playlists.config.json");
-const OUTPUT_FILE = path.join(__dirname, "videos.json");
+const OUTPUT_FILE = path.join(__dirname, "public", "data", "videos.json");
 
 /* ── Static IDs for categories without a playlist URL ──────── */
 // These are pre-set IDs that will be used when no playlistUrl is provided.

@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
 import { ytThumb } from "@/lib/utils";
+import { FiPlay } from "react-icons/fi";
 import Contact from "@/components/sections/Contact";
+gsap.registerPlugin(ScrollTrigger);
 import type { Creator, Promotion, Brand } from "@/types";
 
 export default function BrandPage() {
+  const heroRef = useRef<HTMLElement>(null);
   const [creators, setCreators] = useState<Creator[]>([]);
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -37,6 +42,30 @@ export default function BrandPage() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!heroRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".nk-hero-logo",
+        { opacity: 0, scale: 0.7, y: -20 },
+        { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: "back.out(1.5)" },
+      );
+      gsap.fromTo(
+        ".nk-hero-text > *",
+        { opacity: 0, y: 36 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "expo.out",
+          stagger: 0.12,
+          delay: 0.3,
+        },
+      );
+    }, heroRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -49,122 +78,192 @@ export default function BrandPage() {
 
       {/* ── NK Hero ── */}
       <section
+        ref={heroRef}
         style={{
-          paddingTop: "calc(var(--nav-h) + 60px)",
-          paddingBottom: 80,
+          position: "relative",
+          minHeight: "80vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
           background: "var(--dark-3)",
         }}
       >
-        <div className="container">
+        {/* Full-bleed banner */}
+        <img
+          src="/assets/namashkar-kolkata/Youtube_Banner.webp"
+          alt="Namashkar Kolkata"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            opacity: 0.35,
+          }}
+        />
+        {/* Gradient overlay */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(to bottom, rgba(6,6,6,0.5) 0%, rgba(6,6,6,0.2) 50%, rgba(6,6,6,0.85) 100%)",
+          }}
+        />
+
+        {/* Content */}
+        <div
+          className="container"
+          style={{
+            position: "relative",
+            zIndex: 2,
+            textAlign: "center",
+            paddingTop: "calc(var(--nav-h) + 40px)",
+            paddingBottom: 80,
+          }}
+        >
+          {/* Logo circle */}
           <div
+            className="nk-hero-logo"
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              marginBottom: 16,
+              display: "inline-block",
+              marginBottom: 28,
+              position: "relative",
+              opacity: 0,
             }}
           >
-            <img
-              src="/assets/namashkar-kolkata/logo_symbol.jpg"
-              alt="NK"
+            <div
               style={{
-                width: 48,
-                height: 48,
+                width: 120,
+                height: 120,
                 borderRadius: "50%",
-                objectFit: "cover",
                 border: "2px solid var(--gold)",
+                padding: 4,
+                background: "rgba(6,6,6,0.6)",
+                backdropFilter: "blur(10px)",
               }}
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = "none";
+            >
+              <img
+                src="/assets/namashkar-kolkata/logo_symbol.jpg"
+                alt="NK"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </div>
+            {/* Gold ring animation */}
+            <div
+              style={{
+                position: "absolute",
+                inset: -6,
+                borderRadius: "50%",
+                border: "1px solid rgba(201,168,76,0.3)",
+                animation: "nk-ring 2.5s ease-in-out infinite",
               }}
             />
+          </div>
+
+          {/* Text block */}
+          <div className="nk-hero-text">
             <p
               style={{
-                fontSize: "0.7rem",
-                fontWeight: 600,
-                letterSpacing: "0.2em",
+                fontSize: "0.68rem",
+                fontWeight: 700,
+                letterSpacing: "0.3em",
                 textTransform: "uppercase",
                 color: "var(--gold)",
+                marginBottom: 14,
+                opacity: 0,
               }}
             >
               Brand & Digital Media
             </p>
-          </div>
-          <h1 className="section-title" style={{ maxWidth: 700 }}>
-            Building Kolkata's
-            <br />
-            <em>creative voice.</em>
-          </h1>
-          <p
-            style={{
-              color: "var(--white-dim)",
-              fontSize: "1rem",
-              maxWidth: 560,
-              lineHeight: 1.8,
-              marginBottom: 32,
-            }}
-          >
-            70K+ followers. 1M+ monthly reach. Kolkata's leading creative media
-            platform.
-          </p>
-          {/* Logo animation video */}
-          <a
-            href="https://www.youtube.com/watch?v=1x3CvtiVlNs"
-            data-fancybox="nk-intro"
-            data-type="iframe"
-            data-src="https://www.youtube.com/embed/1x3CvtiVlNs?autoplay=1"
-            style={{
-              display: "inline-block",
-              position: "relative",
-              maxWidth: 480,
-              borderRadius: "var(--radius)",
-              overflow: "hidden",
-              border: "1px solid rgba(201,168,76,0.2)",
-            }}
-          >
-            <img
-              src="/assets/namashkar-kolkata/Youtube_Banner.webp"
-              alt="Namashkar Kolkata"
-              style={{ width: "100%", display: "block" }}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = ytThumb(
-                  "1x3CvtiVlNs",
-                  "hqdefault",
-                );
-              }}
-            />
-            <div
+            <h1
               style={{
-                position: "absolute",
-                inset: 0,
-                background: "rgba(0,0,0,0.4)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(3rem, 8vw, 7rem)",
+                lineHeight: 0.92,
+                color: "var(--white)",
+                marginBottom: 20,
+                opacity: 0,
               }}
             >
-              <span style={{ fontSize: "3.5rem", color: "var(--gold)" }}>
-                ▶
-              </span>
-            </div>
+              NAMASHKAR
+              <br />
+              <span style={{ color: "var(--gold)" }}>KOLKATA</span>
+            </h1>
             <p
               style={{
-                position: "absolute",
-                bottom: 16,
-                left: 0,
-                right: 0,
-                textAlign: "center",
-                fontSize: "0.72rem",
-                fontWeight: 600,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "var(--white)",
+                color: "var(--white-dim)",
+                fontSize: "1.05rem",
+                maxWidth: 520,
+                lineHeight: 1.75,
+                margin: "0 auto 36px",
+                opacity: 0,
               }}
             >
-              Watch Channel Intro
+              70K+ followers · 1M+ monthly reach
+              <br />
+              Kolkata's leading creative media platform.
             </p>
-          </a>
+
+            {/* Logo animation video CTA */}
+            <div style={{ opacity: 0 }}>
+              <a
+                href="https://www.youtube.com/watch?v=1x3CvtiVlNs"
+                data-fancybox="nk-intro"
+                data-type="iframe"
+                data-src="https://www.youtube.com/embed/1x3CvtiVlNs?autoplay=1"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: "rgba(201,168,76,0.1)",
+                  border: "1px solid rgba(201,168,76,0.4)",
+                  borderRadius: "var(--radius)",
+                  padding: "14px 28px",
+                  color: "var(--gold)",
+                  fontWeight: 700,
+                  fontSize: "0.8rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <span
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: "50%",
+                    background: "var(--gold)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FiPlay size={16} color="var(--black)" fill="var(--black)" />
+                </span>
+                Watch Channel Intro
+              </a>
+            </div>
+          </div>
         </div>
+
+        <style>{`
+          @keyframes nk-ring {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.12); opacity: 0.7; }
+          }
+          .nk-hero-text > * { opacity: 0; }
+        `}</style>
       </section>
 
       {/* ── NK About ── */}

@@ -76,7 +76,7 @@ export default function WorkPage() {
               >
                 {cat.label}
               </h2>
-              {ids.length > 6 && (
+              {ids.length >= 3 && (
                 <Link
                   to={`/work/category/${cat.slug}`}
                   style={{
@@ -91,7 +91,11 @@ export default function WorkPage() {
                 </Link>
               )}
             </div>
-            <VideoCarousel videoIds={show} groupId={`work-${cat.slug}`} />
+            <VideoCarousel
+              videoIds={show}
+              groupId={`work-${cat.slug}`}
+              linkToPage
+            />
           </section>
         );
       })}

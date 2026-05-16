@@ -57,6 +57,7 @@ export default function WorkSection() {
         const ids = videos[cat.slug] || [];
         if (!ids.length) return null;
         const show = ids.slice(0, 12);
+        const showSeeAll = ids.length >= 3;
         return (
           <div key={cat.slug} style={{ marginBottom: 56 }}>
             <div
@@ -78,7 +79,7 @@ export default function WorkSection() {
               >
                 {cat.label}
               </h3>
-              {ids.length > 6 ? (
+              {showSeeAll && (
                 <Link
                   to={`/work/category/${cat.slug}`}
                   style={{
@@ -91,24 +92,9 @@ export default function WorkSection() {
                 >
                   See All →
                 </Link>
-              ) : cat.playlistUrl ? (
-                <a
-                  href={cat.playlistUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 600,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "var(--gold)",
-                  }}
-                >
-                  See All →
-                </a>
-              ) : null}
+              )}
             </div>
-            <VideoCarousel videoIds={show} groupId={cat.slug} />
+            <VideoCarousel videoIds={show} groupId={cat.slug} linkToPage />
           </div>
         );
       })}

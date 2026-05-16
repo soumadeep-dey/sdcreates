@@ -109,7 +109,7 @@ export default function ServicesSection() {
           className="services-grid-home"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+            gridTemplateColumns: "repeat(3, 1fr)",
             gap: 20,
           }}
         >
@@ -121,12 +121,22 @@ export default function ServicesSection() {
               transition={{ duration: 0.25 }}
               style={{
                 background: "var(--dark-2)",
-                border: "1px solid rgba(201,168,76,0.08)",
+                border: "1px solid rgba(201,168,76,0.1)",
                 borderRadius: "var(--radius)",
                 padding: "28px 24px",
                 display: "flex",
                 flexDirection: "column",
                 gap: 12,
+                cursor: "default",
+                transition: "border-color var(--transition)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor =
+                  "rgba(201,168,76,0.35)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor =
+                  "rgba(201,168,76,0.1)";
               }}
             >
               <span style={{ fontSize: "2rem" }}>{icon}</span>
@@ -158,6 +168,10 @@ export default function ServicesSection() {
           </Link>
         </div>
       </div>
+      <style>{`
+        @media(max-width:900px){.services-grid-home{grid-template-columns:repeat(2,1fr)!important}}
+        @media(max-width:600px){.services-grid-home{grid-template-columns:1fr!important}}
+      `}</style>
     </section>
   );
 }

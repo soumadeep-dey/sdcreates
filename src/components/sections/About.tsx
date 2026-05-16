@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FiMail, FiLinkedin } from "react-icons/fi";
 gsap.registerPlugin(ScrollTrigger);
 
 const STATS = [
@@ -9,7 +10,7 @@ const STATS = [
   { num: "1K+", label: "IG Features" },
 ];
 
-const TAGS = [
+const ROLES = [
   "Director",
   "DOP",
   "Colorist",
@@ -17,39 +18,89 @@ const TAGS = [
   "Foley Artist",
   "Photo Editor",
   "Full Stack Dev",
-  "Digital Marketing",
+  "Digital Marketer",
 ];
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
+  const [visibleRoles, setVisibleRoles] = useState<string[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.to('[data-gsap="slide-left"]', {
-        opacity: 1,
-        x: 0,
-        duration: 1.1,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: '[data-gsap="slide-left"]',
-          start: "top 87%",
-          once: true,
+      // Slide in from left
+      gsap.fromTo(
+        '[data-gsap="slide-left"]',
+        { opacity: 0, x: -60 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1.1,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 85%",
+            once: true,
+          },
         },
-      });
-      gsap.to('[data-gsap="slide-right"]', {
-        opacity: 1,
-        x: 0,
-        duration: 1.1,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: '[data-gsap="slide-right"]',
-          start: "top 87%",
-          once: true,
+      );
+      // Slide in from right
+      gsap.fromTo(
+        '[data-gsap="slide-right"]',
+        { opacity: 0, x: 60 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1.1,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 85%",
+            once: true,
+          },
         },
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
+      );
+      // Counter pop-in for stat cards
+      gsap.fromTo(
+        ".about-stat-card",
+        { opacity: 0, y: 24, scale: 0.93 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          ease: "back.out(1.7)",
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: ".about-stats-row",
+            start: "top 90%",
+            once: true,
+          },
+        },
+      );
+    };, ref);
+
+    // Roles type-on animation triggered by scroll
+    let triggered = false;
+    const trigger = ScrollTrigger.create({
+      trigger: ref.current,
+      start: "top 80%",
+      once: true,
+      onEnter: () => {
+        if (triggered) return;
+        triggered = true;
+        ROLES.forEach((role, i) => {
+          setTimeout(() => {
+            setVisibleRoles((prev) => [...prev, role]);
+          }, i * 140);
+        });
+      },
+    });
+
+    return () => {
+      ctx.revert();
+      trigger.kill();
+    };
+  };, []);
 
   return (
     <section
@@ -58,7 +109,7 @@ export default function About() {
       style={{ padding: "100px 0", background: "var(--dark)" }}
     >
       <div
-        className="container"
+        className="container about-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -69,17 +120,25 @@ export default function About() {
         {/* Visual */}
         <div
           data-gsap="slide-left"
-          style={{ display: "flex", flexDirection: "column", gap: 28 }}
+          style={{
+            opacity: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: 28,
+          }}
         >
-          <div style={{ position: "relative" }}>
+          {/* Profile image with gold frame */}
+          <div style={{ position: "relative", width: "fit-content" }}>
             <div
               style={{
                 aspectRatio: "4/5",
-                maxWidth: 380,
+                width: "100%",
+                maxWidth: 360,
                 background: "var(--dark-3)",
-                borderRadius: 2,
+                borderRadius: 4,
                 overflow: "hidden",
-                border: "1px solid rgba(201,168,76,0.1)",
+                border: "1px solid rgba(201,168,76,0.15)",
+                position: "relative",
               }}
             >
               <img
@@ -90,40 +149,56 @@ export default function About() {
                   (e.target as HTMLImageElement).style.display = "none";
                 }}
               />
+              {/* Gold shimmer overlay on image */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(135deg, transparent 60%, rgba(201,168,76,0.08) 100%)",
+                  pointerEvents: "none",
+                }}
+              />
             </div>
+            {/* Offset gold border frame */}
             <div
               style={{
                 position: "absolute",
-                bottom: -12,
-                right: -12,
-                width: "100%",
-                maxWidth: 380,
-                height: "100%",
-                border: "1px solid rgba(201,168,76,0.2)",
-                borderRadius: 2,
+                bottom: -10,
+                right: -10,
+                width: "calc(100% - 0px)",
+                maxWidth: 360,
+                height: "calc(100% - 0px)",
+                border: "2px solid rgba(201,168,76,0.25)",
+                borderRadius: 4,
                 pointerEvents: "none",
               }}
             />
           </div>
-          <div style={{ display: "flex", gap: 16 }}>
+
+          {/* Stats row */}
+          <div className="about-stats-row" style={{ display: "flex", gap: 12 }}>
             {STATS.map(({ num, label }) => (
               <div
                 key={label}
+                className="about-stat-card"
                 style={{
                   flex: 1,
                   background: "var(--dark-2)",
-                  border: "1px solid rgba(201,168,76,0.1)",
-                  padding: "16px 12px",
-                  borderRadius: 2,
+                  border: "1px solid rgba(201,168,76,0.12)",
+                  padding: "20px 12px",
+                  borderRadius: 4,
                   textAlign: "center",
+                  opacity: 0,
                 }}
               >
                 <span
                   style={{
                     display: "block",
                     fontFamily: "var(--font-display)",
-                    fontSize: "2rem",
+                    fontSize: "2.2rem",
                     color: "var(--gold)",
+                    lineHeight: 1,
                   }}
                 >
                   {num}
@@ -131,12 +206,12 @@ export default function About() {
                 <span
                   style={{
                     display: "block",
-                    fontSize: "0.68rem",
+                    fontSize: "0.65rem",
                     fontWeight: 600,
-                    letterSpacing: "0.1em",
+                    letterSpacing: "0.12em",
                     textTransform: "uppercase",
                     color: "var(--white-dim)",
-                    marginTop: 4,
+                    marginTop: 6,
                   }}
                 >
                   {label}
@@ -147,7 +222,7 @@ export default function About() {
         </div>
 
         {/* Text */}
-        <div data-gsap="slide-right">
+        <div data-gsap="slide-right" style={{ opacity: 0 }}>
           <p className="section-eyebrow">About</p>
           <h2 className="section-title" style={{ marginBottom: 24 }}>
             Two worlds.
@@ -158,7 +233,7 @@ export default function About() {
             style={{
               fontFamily: "var(--font-serif)",
               fontStyle: "italic",
-              fontSize: "1.1rem",
+              fontSize: "1.05rem",
               color: "var(--gold)",
               borderLeft: "3px solid var(--gold)",
               paddingLeft: 20,
@@ -195,54 +270,66 @@ export default function About() {
             , I grew a brand from zero to 70K+ followers with 1M+ monthly reach.
             I don't just make things look beautiful. I make them work.
           </p>
+
+          {/* Roles — animate one by one */}
           <div
             style={{
               display: "flex",
               flexWrap: "wrap",
               gap: 8,
               marginBottom: 32,
+              minHeight: 72,
             }}
           >
-            {TAGS.map((tag) => (
+            {visibleRoles.map((role) => (
               <span
-                key={tag}
+                key={role}
+                className="about-role-tag"
                 style={{
                   fontSize: "0.72rem",
                   fontWeight: 500,
                   letterSpacing: "0.08em",
-                  padding: "5px 12px",
-                  border: "1px solid rgba(201,168,76,0.25)",
+                  padding: "5px 14px",
+                  border: "1px solid rgba(201,168,76,0.3)",
                   borderRadius: 2,
-                  color: "var(--white-dim)",
+                  color: "var(--gold)",
+                  background: "rgba(201,168,76,0.05)",
+                  animation: "roleTagIn 0.35s ease forwards",
                 }}
               >
-                {tag}
+                {role}
               </span>
             ))}
           </div>
+
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <a
               href="mailto:contactsoumadeepdey@gmail.com"
               className="btn-primary"
+              style={{ display: "flex", alignItems: "center", gap: 8 }}
             >
-              Email Me
+              <FiMail /> Email Me
             </a>
             <a
               href="https://www.linkedin.com/in/soumadeep-dey"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-ghost"
+              style={{ display: "flex", alignItems: "center", gap: 8 }}
             >
-              LinkedIn
+              <FiLinkedin /> LinkedIn
             </a>
           </div>
         </div>
       </div>
 
-      {/* Responsive grid fix */}
       <style>{`
         @media(max-width:768px){
-          #about .container{grid-template-columns:1fr!important;gap:48px!important}
+          .about-grid{grid-template-columns:1fr!important;gap:48px!important}
+        }
+        @keyframes roleTagIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </section>

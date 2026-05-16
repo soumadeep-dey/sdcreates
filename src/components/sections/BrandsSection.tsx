@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -32,58 +33,73 @@ export default function BrandsSection() {
         </h2>
       </div>
 
-      <Swiper
-        modules={[Autoplay]}
-        slidesPerView="auto"
-        spaceBetween={40}
-        loop
-        autoplay={{ delay: 0, disableOnInteraction: false }}
-        speed={4000}
-        allowTouchMove={false}
-        style={{ paddingBottom: 8 }}
+      <div
+        style={{
+          paddingBottom: 8,
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+        }}
       >
-        {[...brands, ...brands]
-          .filter((b) => b.file)
-          .map((brand, i) => (
-            <SwiperSlide key={i} style={{ width: "auto" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: 60,
-                  padding: "0 8px",
-                }}
-              >
-                <img
-                  src={`/assets/brands/${brand.file}`}
-                  alt={brand.name}
-                  title={brand.name}
-                  loading="lazy"
+        <Swiper
+          modules={[Autoplay]}
+          slidesPerView="auto"
+          spaceBetween={40}
+          loop
+          autoplay={{ delay: 0, disableOnInteraction: false }}
+          speed={4000}
+          allowTouchMove={false}
+        >
+          {[...brands, ...brands]
+            .filter((b) => b.file)
+            .map((brand, i) => (
+              <SwiperSlide key={i} style={{ width: "auto" }}>
+                <div
                   style={{
-                    height: 44,
-                    width: "auto",
-                    maxWidth: 120,
-                    objectFit: "contain",
-                    filter: "brightness(0.9) saturate(1.1)",
-                    transition: "filter 0.35s",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: 60,
+                    padding: "0 8px",
                   }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLImageElement).style.filter =
-                      "brightness(1.1) saturate(1.3)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLImageElement).style.filter =
-                      "brightness(0.9) saturate(1.1)";
-                  }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-      </Swiper>
+                >
+                  <img
+                    src={`/assets/brands/${brand.file}`}
+                    alt={brand.name}
+                    title={brand.name}
+                    loading="lazy"
+                    style={{
+                      height: 44,
+                      width: "auto",
+                      maxWidth: 120,
+                      objectFit: "contain",
+                      filter: "brightness(0.9) saturate(1.1)",
+                      transition: "filter 0.35s",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.target as HTMLImageElement).style.filter =
+                        "brightness(1.1) saturate(1.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.target as HTMLImageElement).style.filter =
+                        "brightness(0.9) saturate(1.1)";
+                    }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
+
+      <div className="container" style={{ textAlign: "center", marginTop: 36 }}>
+        <Link to="/brand" className="btn-ghost" style={{ fontSize: "0.8rem" }}>
+          View All Brands →
+        </Link>
+      </div>
     </section>
   );
 }

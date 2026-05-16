@@ -1,41 +1,50 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  FiMail,
+  FiPhone,
+  FiYoutube,
+  FiInstagram,
+  FiLinkedin,
+  FiGithub,
+  FiMapPin,
+} from "react-icons/fi";
 gsap.registerPlugin(ScrollTrigger);
 
 const CONTACTS = [
   {
-    icon: "✉️",
+    icon: <FiMail size={20} color="var(--gold)" />,
     label: "Email",
     value: "contactsoumadeepdey@gmail.com",
     href: "mailto:contactsoumadeepdey@gmail.com",
   },
   {
-    icon: "📞",
+    icon: <FiPhone size={20} color="var(--gold)" />,
     label: "Phone",
     value: "+91 6291528931",
     href: "tel:+916291528931",
   },
   {
-    icon: "▶️",
+    icon: <FiYoutube size={20} color="var(--gold)" />,
     label: "YouTube",
     value: "SDeyProductions",
     href: "https://www.youtube.com/c/SDeyProductions",
   },
   {
-    icon: "📷",
+    icon: <FiInstagram size={20} color="var(--gold)" />,
     label: "Instagram",
     value: "@soumadeep_dey",
     href: "https://www.instagram.com/soumadeep_dey",
   },
   {
-    icon: "💼",
+    icon: <FiLinkedin size={20} color="var(--gold)" />,
     label: "LinkedIn",
     value: "soumadeep-dey",
     href: "https://www.linkedin.com/in/soumadeep-dey",
   },
   {
-    icon: "🐙",
+    icon: <FiGithub size={20} color="var(--gold)" />,
     label: "GitHub",
     value: "soumadeep-dey",
     href: "https://github.com/soumadeep-dey",
@@ -158,7 +167,11 @@ export default function Contact() {
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              <span style={{ fontSize: "1.4rem" }}>{icon}</span>
+              <span
+                style={{ display: "flex", alignItems: "center", flexShrink: 0 }}
+              >
+                {icon}
+              </span>
               <div style={{ textAlign: "left" }}>
                 <p
                   style={{
@@ -195,7 +208,11 @@ export default function Contact() {
             letterSpacing: "0.12em",
           }}
         >
-          📍 Kolkata, India · Available for remote &amp; on-site work worldwide
+          <FiMapPin
+            size={12}
+            style={{ marginRight: 6, verticalAlign: "middle" }}
+          />{" "}
+          Kolkata, India · Available for remote &amp; on-site work worldwide
         </p>
       </div>
     </section>

@@ -153,21 +153,21 @@ export default function ServicesPage() {
                   {title}
                 </h3>
                 <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                      "repeat(auto-fill, minmax(260px, 1fr))",
-                    gap: 20,
-                  }}
+                  style={{ display: "flex", flexDirection: "column", gap: 14 }}
                 >
                   {groups.map((g) => (
                     <div
                       key={g.category}
                       style={{
+                        width: "100%",
                         background: "var(--dark-2)",
                         border: "1px solid rgba(201,168,76,0.08)",
                         borderRadius: "var(--radius)",
-                        padding: "20px",
+                        padding: "20px 24px",
+                        display: "flex",
+                        gap: 20,
+                        alignItems: "flex-start",
+                        flexWrap: "wrap",
                       }}
                     >
                       <p
@@ -177,21 +177,28 @@ export default function ServicesPage() {
                           letterSpacing: "0.15em",
                           textTransform: "uppercase",
                           color: "var(--gold)",
-                          marginBottom: 14,
+                          minWidth: 180,
+                          paddingTop: 4,
+                          flexShrink: 0,
                         }}
                       >
                         {g.category}
                       </p>
                       <div
-                        style={{ display: "flex", flexWrap: "wrap", gap: 6 }}
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: 6,
+                          flex: 1,
+                        }}
                       >
                         {g.skills.map((skill) => (
                           <span
                             key={skill}
                             style={{
                               fontSize: "0.75rem",
-                              padding: "4px 10px",
-                              background: "rgba(201,168,76,0.06)",
+                              padding: "4px 12px",
+                              background: "rgba(201,168,76,0.05)",
                               border: "1px solid rgba(201,168,76,0.15)",
                               borderRadius: 2,
                               color: "var(--white-dim)",

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LINKS = [
@@ -16,6 +16,8 @@ const LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -25,13 +27,19 @@ export default function Navbar() {
 
   const handleHashLink = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    hash: string,
+    href: string,
   ) => {
+    e.preventDefault();
     setOpen(false);
-    const el = document.querySelector(hash);
-    if (el) {
-      e.preventDefault();
-      el.scrollIntoView({ behavior: "smooth" });
+    const [pagePath, hash] = href.split("#");
+    const targetId = hash || "";
+    // If already on the correct page, just scroll
+    if (!pagePath || location.pathname === pagePath) {
+      const el = document.getElementById(targetId);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Navigate to the page with the hash so RouteScroller handles it
+      navigate(`${pagePath}#${targetId}`);
     }
   };
 
@@ -80,7 +88,7 @@ export default function Navbar() {
             {hash ? (
               <a
                 href={to}
-                onClick={(e) => handleHashLink(e, to.substring(1))}
+                onClick={(e) => handleHashLink(e, to)}
                 style={{
                   fontSize: "0.78rem",
                   fontWeight: 500,
@@ -103,7 +111,7 @@ export default function Navbar() {
             ) : label === "Contact" ? (
               <a
                 href="#contact"
-                onClick={(e) => handleHashLink(e, "#contact")}
+                onClick={(e) => handleHashLink(e, "/#contact")}
                 className="btn-primary"
                 style={{ padding: "8px 20px", marginLeft: 8 }}
               >
@@ -194,7 +202,7 @@ export default function Navbar() {
                   {hash ? (
                     <a
                       href={to}
-                      onClick={(e) => handleHashLink(e, to.substring(1))}
+                      onClick={(e) => handleHashLink(e, to)}
                       style={{
                         display: "block",
                         padding: "10px 0",
