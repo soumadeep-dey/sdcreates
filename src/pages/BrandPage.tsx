@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Swiper, SwiperSlide } from "swiper/react";
-import type { SwiperRef } from "swiper/react";
 import { Navigation, Autoplay, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -25,7 +24,7 @@ export default function BrandPage() {
     videos: YTVideo[];
     photos: string[];
   }>({ videos: [], photos: [] });
-  const mentorsSwiperRef = useRef<SwiperRef>(null);
+
   const festivalRef = useRef<HTMLDivElement>(null);
   useFancybox();
 
@@ -42,7 +41,10 @@ export default function BrandPage() {
       setPromotions(p);
       setBrands(b);
       setFestivalVideos(Array.isArray(festVids) ? festVids : []);
-      setPhotowalks({ videos: Array.isArray(pwVids) ? pwVids : [], photos: pw.photos || [] });
+      setPhotowalks({
+        videos: Array.isArray(pwVids) ? pwVids : [],
+        photos: pw.photos || [],
+      });
     });
   }, []);
 
@@ -418,7 +420,13 @@ export default function BrandPage() {
           {/* Festival Schedule + Mentors — side by side */}
           <div
             id="nkf-schedule-grid"
-            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, marginBottom: 48 }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: 48,
+              alignItems: "start",
+              marginBottom: 48,
+            }}
           >
             {/* Left: Festival Schedule / Timeline */}
             <div ref={festivalRef}>
@@ -442,14 +450,19 @@ export default function BrandPage() {
                     top: 6,
                     bottom: 6,
                     width: 2,
-                    background: "linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.06))",
+                    background:
+                      "linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.06))",
                   }}
                 />
                 {creators.map((c) => (
                   <div
                     className="nkf-tl-item"
                     key={c.day}
-                    style={{ position: "relative", marginBottom: 14, opacity: 0 }}
+                    style={{
+                      position: "relative",
+                      marginBottom: 14,
+                      opacity: 0,
+                    }}
                   >
                     {/* Day dot on the line */}
                     <div
@@ -482,7 +495,14 @@ export default function BrandPage() {
                         borderRadius: "var(--radius)",
                       }}
                     >
-                      <p style={{ fontWeight: 700, color: "var(--white)", fontSize: "0.88rem", marginBottom: 2 }}>
+                      <p
+                        style={{
+                          fontWeight: 700,
+                          color: "var(--white)",
+                          fontSize: "0.88rem",
+                          marginBottom: 2,
+                        }}
+                      >
                         {c.mentor}
                       </p>
                       <p
@@ -497,7 +517,13 @@ export default function BrandPage() {
                         {c.role}
                       </p>
                       {c.description && (
-                        <p style={{ fontSize: "0.75rem", color: "var(--white-dim)", lineHeight: 1.5 }}>
+                        <p
+                          style={{
+                            fontSize: "0.75rem",
+                            color: "var(--white-dim)",
+                            lineHeight: 1.5,
+                          }}
+                        >
                           {c.description}
                         </p>
                       )}
@@ -507,7 +533,7 @@ export default function BrandPage() {
               </div>
             </div>
 
-            {/* Right: Featured Mentors Swiper */}
+            {/* Right: Featured Mentors (grid) */}
             <div>
               <h3
                 style={{
@@ -521,18 +547,18 @@ export default function BrandPage() {
                 Featured Mentors
               </h3>
               <div style={{ position: "relative" }}>
-                <Swiper
-                  ref={mentorsSwiperRef}
-                  modules={[Autoplay]}
-                  autoplay={{ delay: 3000, disableOnInteraction: false }}
-                  loop
-                  slidesPerView="auto"
-                  spaceBetween={12}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: 12,
+                    alignItems: "start",
+                  }}
                 >
                   {creators
                     .filter((c) => c.image)
                     .map((c) => (
-                      <SwiperSlide key={c.day} style={{ width: 150 }}>
+                      <div key={c.day} style={{ textAlign: "center" }}>
                         <a
                           href={c.image!}
                           data-fancybox="nkf-mentors"
@@ -553,31 +579,28 @@ export default function BrandPage() {
                             }}
                           />
                         </a>
-                        <p style={{ fontWeight: 700, color: "var(--white)", fontSize: "0.78rem", marginTop: 8, textAlign: "center" }}>
+                        <p
+                          style={{
+                            fontWeight: 700,
+                            color: "var(--white)",
+                            fontSize: "0.78rem",
+                            marginTop: 8,
+                          }}
+                        >
                           {c.mentor}
                         </p>
-                        <p style={{ fontSize: "0.65rem", color: "var(--gold)", textAlign: "center", marginTop: 2 }}>
+                        <p
+                          style={{
+                            fontSize: "0.65rem",
+                            color: "var(--gold)",
+                            marginTop: 2,
+                          }}
+                        >
                           {c.role}
                         </p>
-                      </SwiperSlide>
+                      </div>
                     ))}
-                </Swiper>
-                <button
-                  className="nkf-mentor-prev"
-                  onClick={() => mentorsSwiperRef.current?.swiper.slidePrev()}
-                  style={navBtn("left")}
-                  aria-label="Previous"
-                >
-                  ‹
-                </button>
-                <button
-                  className="nkf-mentor-next"
-                  onClick={() => mentorsSwiperRef.current?.swiper.slideNext()}
-                  style={navBtn("right")}
-                  aria-label="Next"
-                >
-                  ›
-                </button>
+                </div>
               </div>
             </div>
           </div>
@@ -601,9 +624,13 @@ export default function BrandPage() {
                   modules={[Navigation, Autoplay]}
                   autoplay={{ delay: 3500, disableOnInteraction: false }}
                   loop
-                slidesPerView={3}
+                  slidesPerView={3}
                   spaceBetween={10}
-                  style={{ width: "100%", borderRadius: "var(--radius)", overflow: "hidden" }}
+                  style={{
+                    width: "100%",
+                    borderRadius: "var(--radius)",
+                    overflow: "hidden",
+                  }}
                 >
                   {festivalVideos.map((v) => (
                     <SwiperSlide key={v.id}>
@@ -635,7 +662,15 @@ export default function BrandPage() {
                             justifyContent: "center",
                           }}
                         >
-                          <span style={{ fontSize: "3.5rem", color: "var(--white)", opacity: 0.9 }}>▶</span>
+                          <span
+                            style={{
+                              fontSize: "3.5rem",
+                              color: "var(--white)",
+                              opacity: 0.9,
+                            }}
+                          >
+                            ▶
+                          </span>
                         </div>
                         <div
                           style={{
@@ -644,17 +679,38 @@ export default function BrandPage() {
                             left: 0,
                             right: 0,
                             padding: "40px 24px 20px",
-                            background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
+                            background:
+                              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
                           }}
                         >
-                          <p style={{ color: "var(--white)", fontWeight: 600, fontSize: "0.95rem" }}>{v.title}</p>
+                          <p
+                            style={{
+                              color: "var(--white)",
+                              fontWeight: 600,
+                              fontSize: "0.95rem",
+                            }}
+                          >
+                            {v.title}
+                          </p>
                         </div>
                       </a>
                     </SwiperSlide>
                   ))}
                 </Swiper>
-                <button className="fest-prev" style={navBtn("left")} aria-label="Previous">‹</button>
-                <button className="fest-next" style={navBtn("right")} aria-label="Next">›</button>
+                <button
+                  className="fest-prev"
+                  style={navBtn("left")}
+                  aria-label="Previous"
+                >
+                  ‹
+                </button>
+                <button
+                  className="fest-next"
+                  style={navBtn("right")}
+                  aria-label="Next"
+                >
+                  ›
+                </button>
               </div>
             </div>
           )}
@@ -699,6 +755,76 @@ export default function BrandPage() {
                 — one of India's oldest national newspapers — cementing NK's
                 position as a force in Kolkata's creative landscape.
               </p>
+              {/* Showreel */}
+              {photowalks.videos.length > 0 && (
+                <a
+                  href={`https://www.youtube.com/watch?v=${photowalks.videos[0].id}`}
+                  data-fancybox="pw-showreel"
+                  data-type="iframe"
+                  data-src={`https://www.youtube.com/embed/${photowalks.videos[0].id}?autoplay=1`}
+                  style={{
+                    background: "var(--dark)",
+                    border: "1px solid rgba(201,168,76,0.1)",
+                    borderRadius: "var(--radius)",
+                    overflow: "hidden",
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                    gap: 16,
+                    padding: 12,
+                  }}
+                >
+                  <div
+                    style={{ position: "relative", width: 180, flexShrink: 0 }}
+                  >
+                    <img
+                      src={
+                        photowalks.videos[0].thumbnail ||
+                        ytThumb(photowalks.videos[0].id, "mqdefault")
+                      }
+                      alt="Showreel"
+                      style={{
+                        width: "100%",
+                        aspectRatio: "16/9",
+                        objectFit: "cover",
+                        borderRadius: "var(--radius)",
+                        display: "block",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                        fontSize: "1.8rem",
+                        color: "var(--gold)",
+                        pointerEvents: "none",
+                      }}
+                    >
+                      ▶
+                    </div>
+                  </div>
+                  <div style={{ padding: "8px 12px", flex: 1 }}>
+                    <p
+                      style={{
+                        fontWeight: 700,
+                        color: "var(--white)",
+                        marginBottom: 4,
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      Photowalk Showreel
+                    </p>
+                    <p
+                      style={{ fontSize: "0.78rem", color: "var(--white-dim)" }}
+                    >
+                      Official highlight reel
+                    </p>
+                  </div>
+                </a>
+              )}
             </div>
             <div>
               <img
@@ -767,35 +893,6 @@ export default function BrandPage() {
             </div>
             {photowalks.videos.length > 1 && (
               <>
-                {/* Showreel */}
-                <a
-                  href={`https://www.youtube.com/watch?v=${photowalks.videos[0].id}`}
-                  data-fancybox="pw-showreel"
-                  data-type="iframe"
-                  data-src={`https://www.youtube.com/embed/${photowalks.videos[0].id}?autoplay=1`}
-                  style={{
-                    background: "var(--dark)",
-                    border: "1px solid rgba(201,168,76,0.1)",
-                    borderRadius: "var(--radius)",
-                    overflow: "hidden",
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <img
-                    src={photowalks.videos[0].thumbnail || ytThumb(photowalks.videos[0].id, "mqdefault")}
-                    alt="Showreel"
-                    style={{ width: 120, aspectRatio: "16/9", objectFit: "cover", flexShrink: 0 }}
-                  />
-                  <div style={{ padding: "16px 20px" }}>
-                    <p style={{ fontWeight: 700, color: "var(--white)", marginBottom: 4, fontSize: "0.9rem" }}>
-                      Photowalk Showreel
-                    </p>
-                    <p style={{ fontSize: "0.78rem", color: "var(--white-dim)" }}>Official highlight reel</p>
-                  </div>
-                  <div style={{ position: "absolute", left: 40, top: "50%", transform: "translateY(-50%)", fontSize: "1.8rem", color: "var(--gold)" }}>▶</div>
-                </a>
                 {/* 91.3 FM */}
                 <a
                   href={`https://www.youtube.com/watch?v=${photowalks.videos[1].id}`}
@@ -813,19 +910,47 @@ export default function BrandPage() {
                   }}
                 >
                   <img
-                    src={photowalks.videos[1].thumbnail || ytThumb(photowalks.videos[1].id, "mqdefault")}
+                    src={
+                      photowalks.videos[1].thumbnail ||
+                      ytThumb(photowalks.videos[1].id, "mqdefault")
+                    }
                     alt="91.3 FM"
-                    style={{ width: 120, aspectRatio: "16/9", objectFit: "cover", flexShrink: 0 }}
+                    style={{
+                      width: 120,
+                      aspectRatio: "16/9",
+                      objectFit: "cover",
+                      flexShrink: 0,
+                    }}
                   />
                   <div style={{ padding: "16px 20px" }}>
-                    <p style={{ fontWeight: 700, color: "var(--white)", marginBottom: 4, fontSize: "0.9rem" }}>
+                    <p
+                      style={{
+                        fontWeight: 700,
+                        color: "var(--white)",
+                        marginBottom: 4,
+                        fontSize: "0.9rem",
+                      }}
+                    >
                       91.3 FM Radio Feature
                     </p>
-                    <p style={{ fontSize: "0.78rem", color: "var(--white-dim)" }}>
+                    <p
+                      style={{ fontSize: "0.78rem", color: "var(--white-dim)" }}
+                    >
                       Media recognition on 91.3 FM
                     </p>
                   </div>
-                  <div style={{ position: "absolute", left: 40, top: "50%", transform: "translateY(-50%)", fontSize: "1.8rem", color: "var(--gold)" }}>▶</div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 40,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: "1.8rem",
+                      color: "var(--gold)",
+                    }}
+                  >
+                    ▶
+                  </div>
                 </a>
               </>
             )}
@@ -839,7 +964,7 @@ export default function BrandPage() {
                 navigation={{ nextEl: ".pw-next", prevEl: ".pw-prev" }}
                 autoplay={{ delay: 3000 }}
                 loop
-                slidesPerView="auto"
+                slidesPerView={3}
                 spaceBetween={12}
               >
                 {photowalks.photos.map((p) => (

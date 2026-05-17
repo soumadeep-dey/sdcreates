@@ -82,9 +82,9 @@ export default function BrandsSection() {
             slidesPerView="auto"
             spaceBetween={40}
             loop
-            autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: false }}
+            autoplay={{ delay: 0, disableOnInteraction: true, pauseOnMouseEnter: true }}
             speed={5000}
-            allowTouchMove={false}
+            allowTouchMove={true}
           >
           {[...brands, ...brands]
             .filter((b) => b.file)
