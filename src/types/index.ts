@@ -78,6 +78,13 @@ export interface FeaturedVideo {
   badge?: string;
 }
 
+export interface YTVideo {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+}
+
 export interface SeoData {
   title: string;
   description: string;

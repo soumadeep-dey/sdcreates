@@ -94,7 +94,9 @@ export default function WorkSection() {
                 </Link>
               )}
             </div>
-            <VideoCarousel videoIds={show} groupId={cat.slug} linkToPage />
+            <div className="container">
+              <VideoCarousel videoIds={show} groupId={cat.slug} linkToPage />
+            </div>
           </div>
         );
       })}

@@ -10,7 +10,7 @@ const LINKS = [
   { to: "/brand", label: "Brand" },
   { to: "/#promotions", label: "Promotions", hash: true },
   { to: "/#awards", label: "Awards", hash: true },
-  { to: "/#contact", label: "Contact", hash: true },
+  { to: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -55,7 +55,7 @@ export default function Navbar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 40px",
+        padding: "0 clamp(16px, 4vw, 40px)",
         transition: "background 0.35s, backdrop-filter 0.35s",
         ...(scrolled
           ? {
@@ -79,10 +79,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop */}
-      <ul
-        style={{ display: "flex", alignItems: "center", gap: 8 }}
-        className="hidden md:flex"
-      >
+      <ul style={{ alignItems: "center", gap: 8 }} className="hidden lg:flex">
         {LINKS.map(({ to, label, hash }) => (
           <li key={label}>
             {hash ? (
@@ -109,14 +106,13 @@ export default function Navbar() {
                 {label}
               </a>
             ) : label === "Contact" ? (
-              <a
-                href="#contact"
-                onClick={(e) => handleHashLink(e, "/#contact")}
+              <NavLink
+                to="/contact"
                 className="btn-primary"
                 style={{ padding: "8px 20px", marginLeft: 8 }}
               >
                 Hire Me
-              </a>
+              </NavLink>
             ) : (
               <NavLink
                 to={to}
@@ -142,14 +138,13 @@ export default function Navbar() {
       {/* Hamburger */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="md:hidden"
+        className="flex lg:hidden"
         aria-label="Menu"
         style={{
           background: "none",
           border: "none",
           cursor: "pointer",
           padding: 8,
-          display: "flex",
           flexDirection: "column",
           gap: 5,
         }}

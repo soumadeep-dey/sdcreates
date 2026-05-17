@@ -8,6 +8,7 @@ const BrandPage = lazy(() => import("@/pages/BrandPage"));
 const WorkPage = lazy(() => import("@/pages/WorkPage"));
 const VideoDetail = lazy(() => import("@/pages/VideoDetail"));
 const CategoryPage = lazy(() => import("@/pages/CategoryPage"));
+const ContactPage = lazy(() => import("@/pages/ContactPage"));
 
 const Spinner = () => (
   <div
@@ -83,6 +84,14 @@ export default function AppRoutes() {
           element: (
             <Suspense fallback={<Spinner />}>
               <CategoryPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "contact",
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <ContactPage />
             </Suspense>
           ),
         },

@@ -5,25 +5,28 @@ import { FiMail, FiLinkedin } from "react-icons/fi";
 gsap.registerPlugin(ScrollTrigger);
 
 const STATS = [
-  { num: "6+", label: "Years Filming" },
-  { num: "2+", label: "Years Engineering" },
-  { num: "1K+", label: "IG Features" },
+  { num: "6+", label: "Years Filming", count: 6, suffix: "+" },
+  { num: "2+", label: "Years Engineering", count: 2, suffix: "+" },
+  { num: "1K+", label: "IG Features", count: 1000, suffix: "+" },
 ];
 
 const ROLES = [
   "Director",
-  "DOP",
+  "Cinematographer",
+  "Editor",
   "Colorist",
   "Sound Designer",
   "Foley Artist",
+  "Photographer",
   "Photo Editor",
-  "Full Stack Dev",
+  "Full Stack Developer",
   "Digital Marketer",
 ];
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
   const [visibleRoles, setVisibleRoles] = useState<string[]>([]);
+  const countersRef = useRef<Map<string, HTMLSpanElement>>(new Map());
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -59,7 +62,7 @@ export default function About() {
           },
         },
       );
-      // Counter pop-in for stat cards
+      // Counter pop-in for stat cards + count-up animation
       gsap.fromTo(
         ".about-stat-card",
         { opacity: 0, y: 24, scale: 0.93 },
@@ -74,10 +77,27 @@ export default function About() {
             trigger: ".about-stats-row",
             start: "top 90%",
             once: true,
+            onEnter: () => {
+              // Counter animation
+              countersRef.current.forEach((el) => {
+                const target = parseInt(el.dataset.count || "0", 10);
+                const suffix = el.dataset.suffix || "";
+                const duration = 1.5;
+                const start = { val: 0 };
+                gsap.to(start, {
+                  val: target,
+                  duration,
+                  ease: "power2.out",
+                  onUpdate: () => {
+                    el.textContent = Math.round(start.val) + suffix;
+                  },
+                });
+              });
+            },
           },
         },
       );
-    };, ref);
+    }, ref);
 
     // Roles type-on animation triggered by scroll
     let triggered = false;
@@ -100,7 +120,7 @@ export default function About() {
       ctx.revert();
       trigger.kill();
     };
-  };, []);
+  }, []);
 
   return (
     <section
@@ -128,7 +148,13 @@ export default function About() {
           }}
         >
           {/* Profile image with gold frame */}
-          <div style={{ position: "relative", width: "fit-content" }}>
+          <div
+            style={{
+              position: "relative",
+              width: "fit-content",
+              isolation: "isolate",
+            }}
+          >
             <div
               style={{
                 aspectRatio: "4/5",
@@ -160,25 +186,25 @@ export default function About() {
                 }}
               />
             </div>
-            {/* Offset gold border frame */}
+            {/* Offset gold border frame — behind the image */}
             <div
               style={{
                 position: "absolute",
-                bottom: -10,
-                right: -10,
-                width: "calc(100% - 0px)",
-                maxWidth: 360,
-                height: "calc(100% - 0px)",
-                border: "2px solid rgba(201,168,76,0.25)",
+                bottom: -16,
+                right: -16,
+                width: "70%",
+                height: "70%",
+                border: "1px solid rgba(201,168,76,0.25)",
                 borderRadius: 4,
                 pointerEvents: "none",
+                zIndex: -1,
               }}
             />
           </div>
 
           {/* Stats row */}
           <div className="about-stats-row" style={{ display: "flex", gap: 12 }}>
-            {STATS.map(({ num, label }) => (
+            {STATS.map(({ num, label, count, suffix }) => (
               <div
                 key={label}
                 className="about-stat-card"
@@ -193,6 +219,12 @@ export default function About() {
                 }}
               >
                 <span
+                  ref={(el) => {
+                    if (el) countersRef.current.set(label, el);
+                    else countersRef.current.delete(label);
+                  }}
+                  data-count={count}
+                  data-suffix={suffix}
                   style={{
                     display: "block",
                     fontFamily: "var(--font-display)",

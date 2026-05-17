@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import type { SwiperRef } from "swiper/react";
+import { Autoplay, Navigation, FreeMode } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/free-mode";
 import type { Brand } from "@/types";
 
 export default function BrandsSection() {
   const ref = useRef<HTMLElement>(null);
+  const swiperRef = useRef<SwiperRef>(null);
   const [brands, setBrands] = useState<Brand[]>([]);
 
   useEffect(() => {
@@ -33,24 +36,56 @@ export default function BrandsSection() {
         </h2>
       </div>
 
-      <div
-        style={{
-          paddingBottom: 8,
-          WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-          maskImage:
-            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-        }}
-      >
-        <Swiper
-          modules={[Autoplay]}
-          slidesPerView="auto"
-          spaceBetween={40}
-          loop
-          autoplay={{ delay: 0, disableOnInteraction: false }}
-          speed={4000}
-          allowTouchMove={false}
+      <div style={{ position: "relative" }}>
+        {/* Nav buttons */}
+        <button
+          onClick={() => swiperRef.current?.swiper.slidePrev()}
+          aria-label="Previous brands"
+          style={{
+            position: "absolute", left: 0, top: "50%", transform: "translateY(-50%)",
+            zIndex: 10, background: "rgba(8,8,8,0.85)",
+            border: "1px solid rgba(201,168,76,0.35)", color: "var(--gold)",
+            width: 36, height: 36, borderRadius: "50%", display: "flex",
+            alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
+            cursor: "pointer",
+          }}
         >
+          ‹
+        </button>
+        <button
+          onClick={() => swiperRef.current?.swiper.slideNext()}
+          aria-label="Next brands"
+          style={{
+            position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)",
+            zIndex: 10, background: "rgba(8,8,8,0.85)",
+            border: "1px solid rgba(201,168,76,0.35)", color: "var(--gold)",
+            width: 36, height: 36, borderRadius: "50%", display: "flex",
+            alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
+            cursor: "pointer",
+          }}
+        >
+          ›
+        </button>
+        <div
+          style={{
+            paddingBottom: 8,
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+          }}
+        >
+          <Swiper
+            ref={swiperRef}
+            modules={[Autoplay, Navigation, FreeMode]}
+            freeMode={{ enabled: true }}
+            slidesPerView="auto"
+            spaceBetween={40}
+            loop
+            autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: false }}
+            speed={5000}
+            allowTouchMove={false}
+          >
           {[...brands, ...brands]
             .filter((b) => b.file)
             .map((brand, i) => (
@@ -92,7 +127,8 @@ export default function BrandsSection() {
                 </div>
               </SwiperSlide>
             ))}
-        </Swiper>
+          </Swiper>
+        </div>
       </div>
 
       <div className="container" style={{ textAlign: "center", marginTop: 36 }}>

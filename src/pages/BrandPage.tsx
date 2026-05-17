@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { SwiperRef } from "swiper/react";
 import { Navigation, Autoplay, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -12,18 +13,19 @@ import { ytThumb } from "@/lib/utils";
 import { FiPlay } from "react-icons/fi";
 import Contact from "@/components/sections/Contact";
 gsap.registerPlugin(ScrollTrigger);
-import type { Creator, Promotion, Brand } from "@/types";
+import type { Creator, Promotion, Brand, YTVideo } from "@/types";
 
 export default function BrandPage() {
   const heroRef = useRef<HTMLElement>(null);
   const [creators, setCreators] = useState<Creator[]>([]);
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [festivalVideos, setFestivalVideos] = useState<string[]>([]);
+  const [festivalVideos, setFestivalVideos] = useState<YTVideo[]>([]);
   const [photowalks, setPhotowalks] = useState<{
-    videos: string[];
+    videos: YTVideo[];
     photos: string[];
   }>({ videos: [], photos: [] });
+  const mentorsSwiperRef = useRef<SwiperRef>(null);
   useFancybox();
 
   useEffect(() => {
@@ -31,14 +33,15 @@ export default function BrandPage() {
       fetch("/data/creators.json").then((r) => r.json()),
       fetch("/data/promotions.json").then((r) => r.json()),
       fetch("/data/brands.json").then((r) => r.json()),
-      fetch("/data/festival.json").then((r) => r.json()),
+      fetch("/data/namashkar-kolkata-festival.json").then((r) => r.json()),
+      fetch("/data/namashkar-kolkata-photowalk.json").then((r) => r.json()),
       fetch("/data/photowalk.json").then((r) => r.json()),
-    ]).then(([c, p, b, f, pw]) => {
+    ]).then(([c, p, b, festVids, pwVids, pw]) => {
       setCreators(c);
       setPromotions(p);
       setBrands(b);
-      setFestivalVideos(f.festivalVideos || []);
-      setPhotowalks({ videos: pw.videos || [], photos: pw.photos || [] });
+      setFestivalVideos(Array.isArray(festVids) ? festVids : []);
+      setPhotowalks({ videos: Array.isArray(pwVids) ? pwVids : [], photos: pw.photos || [] });
     });
   }, []);
 
@@ -109,7 +112,7 @@ export default function BrandPage() {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(to bottom, rgba(6,6,6,0.5) 0%, rgba(6,6,6,0.2) 50%, rgba(6,6,6,0.85) 100%)",
+              "linear-gradient(to bottom, rgba(6,6,6,0.65) 0%, rgba(6,6,6,0.55) 40%, rgba(6,6,6,0.55) 60%, rgba(6,6,6,0.88) 100%)",
           }}
         />
 
@@ -388,15 +391,12 @@ export default function BrandPage() {
             PM on YouTube, inspiring the younger generation during the pandemic.
           </p>
 
+          {/* Festival Schedule + Mentors — side by side */}
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 48,
-              marginBottom: 60,
-            }}
+            id="nkf-schedule-grid"
+            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, marginBottom: 48 }}
           >
-            {/* Timeline */}
+            {/* Left: Festival Schedule / Timeline */}
             <div>
               <h3
                 style={{
@@ -404,62 +404,70 @@ export default function BrandPage() {
                   fontSize: "1.1rem",
                   fontWeight: 700,
                   color: "var(--white)",
-                  marginBottom: 28,
+                  marginBottom: 20,
                 }}
               >
                 Festival Schedule
               </h3>
-              {creators.map((c) => (
-                <div
-                  key={c.day}
-                  style={{ display: "flex", gap: 16, marginBottom: 20 }}
-                >
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {creators.map((c) => (
                   <div
+                    key={c.day}
                     style={{
-                      flexShrink: 0,
-                      width: 32,
-                      height: 32,
-                      borderRadius: "50%",
-                      background: "rgba(201,168,76,0.1)",
-                      border: "1px solid rgba(201,168,76,0.3)",
+                      padding: "14px 16px",
+                      borderRadius: "var(--radius)",
+                      background: "rgba(255,255,255,0.02)",
+                      border: "1px solid rgba(201,168,76,0.1)",
                       display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "0.72rem",
-                      fontWeight: 700,
-                      color: "var(--gold)",
-                      marginTop: 2,
+                      gap: 14,
                     }}
                   >
-                    {c.day}
-                  </div>
-                  <div>
-                    <p
+                    <div
                       style={{
-                        fontWeight: 600,
-                        color: "var(--white)",
-                        fontSize: "0.88rem",
-                        marginBottom: 2,
-                      }}
-                    >
-                      {c.mentor}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "0.72rem",
+                        flexShrink: 0,
+                        width: 32,
+                        height: 32,
+                        borderRadius: "50%",
+                        background: "rgba(201,168,76,0.1)",
+                        border: "1px solid rgba(201,168,76,0.3)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "0.68rem",
+                        fontWeight: 700,
                         color: "var(--gold)",
-                        letterSpacing: "0.06em",
-                        marginBottom: 4,
+                        marginTop: 2,
                       }}
                     >
-                      {c.role}
-                    </p>
+                      {c.day}
+                    </div>
+                    <div>
+                      <p style={{ fontWeight: 700, color: "var(--white)", fontSize: "0.88rem", marginBottom: 2 }}>
+                        {c.mentor}
+                      </p>
+                      <p
+                        style={{
+                          fontSize: "0.7rem",
+                          color: "var(--gold)",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                          marginBottom: c.description ? 4 : 0,
+                        }}
+                      >
+                        {c.role}
+                      </p>
+                      {c.description && (
+                        <p style={{ fontSize: "0.76rem", color: "var(--white-dim)", lineHeight: 1.5 }}>
+                          {c.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            {/* Mentors */}
+            {/* Right: Featured Mentors Swiper */}
             <div>
               <h3
                 style={{
@@ -467,67 +475,75 @@ export default function BrandPage() {
                   fontSize: "1.1rem",
                   fontWeight: 700,
                   color: "var(--white)",
-                  marginBottom: 28,
+                  marginBottom: 20,
                 }}
               >
                 Featured Mentors
               </h3>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 16,
-                }}
-              >
-                {creators
-                  .filter((c) => c.image)
-                  .map((c) => (
-                    <a
-                      key={c.day}
-                      href={c.image!}
-                      data-fancybox="nkf-mentors"
-                      data-caption={`${c.mentor} — ${c.role}`}
-                      style={{ display: "block" }}
-                    >
-                      <img
-                        src={c.image!}
-                        alt={c.mentor}
-                        loading="lazy"
-                        style={{
-                          width: "100%",
-                          aspectRatio: "9/16",
-                          objectFit: "cover",
-                          borderRadius: "var(--radius)",
-                          border: "1px solid rgba(201,168,76,0.1)",
-                          transition: "transform 0.35s",
-                        }}
-                        onMouseEnter={(e) => {
-                          (e.target as HTMLImageElement).style.transform =
-                            "scale(1.03)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.target as HTMLImageElement).style.transform =
-                            "scale(1)";
-                        }}
-                      />
-                      <p
-                        style={{
-                          fontSize: "0.72rem",
-                          fontWeight: 600,
-                          color: "var(--white-dim)",
-                          marginTop: 6,
-                          textAlign: "center",
-                        }}
-                      >
-                        {c.mentor}
-                      </p>
-                    </a>
-                  ))}
+              <div style={{ position: "relative" }}>
+                <Swiper
+                  ref={mentorsSwiperRef}
+                  modules={[Autoplay]}
+                  autoplay={{ delay: 3500, disableOnInteraction: false }}
+                  loop
+                  slidesPerView={2}
+                  spaceBetween={16}
+                  breakpoints={{ 0: { slidesPerView: 1 }, 480: { slidesPerView: 2 } }}
+                >
+                  {creators
+                    .filter((c) => c.image)
+                    .map((c) => (
+                      <SwiperSlide key={c.day}>
+                        <a
+                          href={c.image!}
+                          data-fancybox="nkf-mentors"
+                          data-caption={`${c.mentor} — ${c.role}`}
+                          style={{ display: "block" }}
+                        >
+                          <img
+                            src={c.image!}
+                            alt={c.mentor}
+                            loading="lazy"
+                            style={{
+                              width: "100%",
+                              aspectRatio: "9/16",
+                              objectFit: "cover",
+                              borderRadius: "var(--radius)",
+                              border: "1px solid rgba(201,168,76,0.1)",
+                              display: "block",
+                            }}
+                          />
+                        </a>
+                        <p style={{ fontWeight: 700, color: "var(--white)", fontSize: "0.82rem", marginTop: 8, textAlign: "center" }}>
+                          {c.mentor}
+                        </p>
+                        <p style={{ fontSize: "0.7rem", color: "var(--gold)", textAlign: "center", marginTop: 2 }}>
+                          {c.role}
+                        </p>
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+                <button
+                  className="nkf-mentor-prev"
+                  onClick={() => mentorsSwiperRef.current?.swiper.slidePrev()}
+                  style={navBtn("left")}
+                  aria-label="Previous"
+                >
+                  ‹
+                </button>
+                <button
+                  className="nkf-mentor-next"
+                  onClick={() => mentorsSwiperRef.current?.swiper.slideNext()}
+                  style={navBtn("right")}
+                  aria-label="Next"
+                >
+                  ›
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Festival playlist */}
+          {/* Festival playlist — full width */}
           {festivalVideos.length > 0 && (
             <div>
               <h3
@@ -543,47 +559,68 @@ export default function BrandPage() {
               </h3>
               <div style={{ position: "relative" }}>
                 <Swiper
-                  modules={[Navigation]}
-                  navigation={{ nextEl: ".fest-next", prevEl: ".fest-prev" }}
-                  slidesPerView="auto"
-                  spaceBetween={12}
-                  style={{ paddingLeft: 24, paddingRight: 24 }}
+                  modules={[Navigation, Autoplay]}
+                  autoplay={{ delay: 3500, disableOnInteraction: false }}
+                  loop
+                slidesPerView={3}
+                  spaceBetween={10}
+                  style={{ width: "100%", borderRadius: "var(--radius)", overflow: "hidden" }}
                 >
-                  {festivalVideos.map((id) => (
-                    <SwiperSlide key={id} style={{ width: 200 }}>
+                  {festivalVideos.map((v) => (
+                    <SwiperSlide key={v.id}>
                       <a
-                        href={`https://www.youtube.com/watch?v=${id}`}
+                        href={`https://www.youtube.com/watch?v=${v.id}`}
                         data-fancybox="festival-vids"
                         data-type="iframe"
-                        data-src={`https://www.youtube.com/embed/${id}?autoplay=1`}
+                        data-src={`https://www.youtube.com/embed/${v.id}?autoplay=1`}
+                        style={{ display: "block", position: "relative" }}
                       >
                         <img
-                          src={ytThumb(id)}
-                          alt="Festival video"
+                          src={v.thumbnail || ytThumb(v.id, "hqdefault")}
+                          alt={v.title}
                           loading="lazy"
                           style={{
                             width: "100%",
                             aspectRatio: "16/9",
                             objectFit: "cover",
-                            borderRadius: "var(--radius)",
-                            border: "1px solid rgba(201,168,76,0.1)",
+                            display: "block",
                           }}
                         />
+                        <div
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            background: "rgba(0,0,0,0.3)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <span style={{ fontSize: "3.5rem", color: "var(--white)", opacity: 0.9 }}>▶</span>
+                        </div>
+                        <div
+                          style={{
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            padding: "40px 24px 20px",
+                            background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
+                          }}
+                        >
+                          <p style={{ color: "var(--white)", fontWeight: 600, fontSize: "0.95rem" }}>{v.title}</p>
+                        </div>
                       </a>
                     </SwiperSlide>
                   ))}
                 </Swiper>
-                <button className="fest-prev" style={navBtn("left")}>
-                  ‹
-                </button>
-                <button className="fest-next" style={navBtn("right")}>
-                  ›
-                </button>
+                <button className="fest-prev" style={navBtn("left")} aria-label="Previous">‹</button>
+                <button className="fest-next" style={navBtn("right")} aria-label="Next">›</button>
               </div>
             </div>
           )}
         </div>
-        <style>{`@media(max-width:768px){#nkf-grid{grid-template-columns:1fr!important}}`}</style>
+        <style>{`@media(max-width:768px){#nkf-grid,#nkf-schedule-grid{grid-template-columns:1fr!important}}`}</style>
       </section>
 
       {/* ── NK Photowalk ── */}
@@ -591,10 +628,11 @@ export default function BrandPage() {
         <div className="container">
           <p className="section-eyebrow">Community Event</p>
           <h2 className="section-title">
-            Kolkata's biggest <em>photowalk.</em>
+            Kolkata's biggest <em>photowalk</em>
           </h2>
 
           <div
+            id="pw-intro-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -641,6 +679,7 @@ export default function BrandPage() {
 
           {/* Media recognition */}
           <div
+            id="pw-media-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -687,53 +726,69 @@ export default function BrandPage() {
                 </p>
               </div>
             </div>
-            {photowalks.videos.length > 0 && (
-              <a
-                href={`https://www.youtube.com/watch?v=${photowalks.videos[0]}`}
-                data-fancybox="pw-radio"
-                data-type="iframe"
-                data-src={`https://www.youtube.com/embed/${photowalks.videos[0]}?autoplay=1`}
-                style={{
-                  background: "var(--dark)",
-                  border: "1px solid rgba(201,168,76,0.1)",
-                  borderRadius: "var(--radius)",
-                  overflow: "hidden",
-                  position: "relative",
-                  display: "flex",
-                }}
-              >
-                <img
-                  src={ytThumb(photowalks.videos[0], "mqdefault")}
-                  alt="93.5 FM"
-                  style={{ width: 120, objectFit: "cover" }}
-                />
-                <div style={{ padding: 20 }}>
-                  <p
-                    style={{
-                      fontWeight: 700,
-                      color: "var(--white)",
-                      marginBottom: 4,
-                    }}
-                  >
-                    93.5 FM Radio Feature
-                  </p>
-                  <p style={{ fontSize: "0.8rem", color: "var(--white-dim)" }}>
-                    Media recognition on 93.5 FM
-                  </p>
-                </div>
-                <div
+            {photowalks.videos.length > 1 && (
+              <>
+                {/* Showreel */}
+                <a
+                  href={`https://www.youtube.com/watch?v=${photowalks.videos[0].id}`}
+                  data-fancybox="pw-showreel"
+                  data-type="iframe"
+                  data-src={`https://www.youtube.com/embed/${photowalks.videos[0].id}?autoplay=1`}
                   style={{
-                    position: "absolute",
-                    left: 40,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    fontSize: "2rem",
-                    color: "var(--gold)",
+                    background: "var(--dark)",
+                    border: "1px solid rgba(201,168,76,0.1)",
+                    borderRadius: "var(--radius)",
+                    overflow: "hidden",
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  ▶
-                </div>
-              </a>
+                  <img
+                    src={photowalks.videos[0].thumbnail || ytThumb(photowalks.videos[0].id, "mqdefault")}
+                    alt="Showreel"
+                    style={{ width: 120, aspectRatio: "16/9", objectFit: "cover", flexShrink: 0 }}
+                  />
+                  <div style={{ padding: "16px 20px" }}>
+                    <p style={{ fontWeight: 700, color: "var(--white)", marginBottom: 4, fontSize: "0.9rem" }}>
+                      Photowalk Showreel
+                    </p>
+                    <p style={{ fontSize: "0.78rem", color: "var(--white-dim)" }}>Official highlight reel</p>
+                  </div>
+                  <div style={{ position: "absolute", left: 40, top: "50%", transform: "translateY(-50%)", fontSize: "1.8rem", color: "var(--gold)" }}>▶</div>
+                </a>
+                {/* 91.3 FM */}
+                <a
+                  href={`https://www.youtube.com/watch?v=${photowalks.videos[1].id}`}
+                  data-fancybox="pw-radio"
+                  data-type="iframe"
+                  data-src={`https://www.youtube.com/embed/${photowalks.videos[1].id}?autoplay=1`}
+                  style={{
+                    background: "var(--dark)",
+                    border: "1px solid rgba(201,168,76,0.1)",
+                    borderRadius: "var(--radius)",
+                    overflow: "hidden",
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={photowalks.videos[1].thumbnail || ytThumb(photowalks.videos[1].id, "mqdefault")}
+                    alt="91.3 FM"
+                    style={{ width: 120, aspectRatio: "16/9", objectFit: "cover", flexShrink: 0 }}
+                  />
+                  <div style={{ padding: "16px 20px" }}>
+                    <p style={{ fontWeight: 700, color: "var(--white)", marginBottom: 4, fontSize: "0.9rem" }}>
+                      91.3 FM Radio Feature
+                    </p>
+                    <p style={{ fontSize: "0.78rem", color: "var(--white-dim)" }}>
+                      Media recognition on 91.3 FM
+                    </p>
+                  </div>
+                  <div style={{ position: "absolute", left: 40, top: "50%", transform: "translateY(-50%)", fontSize: "1.8rem", color: "var(--gold)" }}>▶</div>
+                </a>
+              </>
             )}
           </div>
 
@@ -775,6 +830,7 @@ export default function BrandPage() {
             </div>
           )}
         </div>
+        <style>{`@media(max-width:768px){#pw-intro-grid,#pw-media-grid{grid-template-columns:1fr!important}}`}</style>
       </section>
 
       {/* ── Brands Grid ── */}
