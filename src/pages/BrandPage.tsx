@@ -26,6 +26,7 @@ export default function BrandPage() {
     photos: string[];
   }>({ videos: [], photos: [] });
   const mentorsSwiperRef = useRef<SwiperRef>(null);
+  const festivalRef = useRef<HTMLDivElement>(null);
   useFancybox();
 
   useEffect(() => {
@@ -68,6 +69,29 @@ export default function BrandPage() {
     }, heroRef);
     return () => ctx.revert();
   }, []);
+
+  useEffect(() => {
+    if (!creators.length) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".nkf-tl-item",
+        { opacity: 0, x: -24 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.55,
+          ease: "expo.out",
+          stagger: 0.09,
+          scrollTrigger: {
+            trigger: festivalRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        },
+      );
+    }, festivalRef);
+    return () => ctx.revert();
+  }, [creators]);
 
   return (
     <>
@@ -397,7 +421,7 @@ export default function BrandPage() {
             style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, marginBottom: 48 }}
           >
             {/* Left: Festival Schedule / Timeline */}
-            <div>
+            <div ref={festivalRef}>
               <h3
                 style={{
                   fontFamily: "var(--font-serif)",
@@ -409,55 +433,71 @@ export default function BrandPage() {
               >
                 Festival Schedule
               </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div style={{ position: "relative", paddingLeft: 44 }}>
+                {/* Vertical timeline line */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 13,
+                    top: 6,
+                    bottom: 6,
+                    width: 2,
+                    background: "linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.06))",
+                  }}
+                />
                 {creators.map((c) => (
                   <div
+                    className="nkf-tl-item"
                     key={c.day}
-                    style={{
-                      padding: "14px 16px",
-                      borderRadius: "var(--radius)",
-                      background: "rgba(255,255,255,0.02)",
-                      border: "1px solid rgba(201,168,76,0.1)",
-                      display: "flex",
-                      gap: 14,
-                    }}
+                    style={{ position: "relative", marginBottom: 14, opacity: 0 }}
                   >
+                    {/* Day dot on the line */}
                     <div
                       style={{
-                        flexShrink: 0,
-                        width: 32,
-                        height: 32,
+                        position: "absolute",
+                        left: -44,
+                        top: 10,
+                        width: 26,
+                        height: 26,
                         borderRadius: "50%",
-                        background: "rgba(201,168,76,0.1)",
-                        border: "1px solid rgba(201,168,76,0.3)",
+                        background: "var(--dark)",
+                        border: "2px solid var(--gold)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        fontSize: "0.68rem",
+                        fontSize: "0.62rem",
                         fontWeight: 700,
                         color: "var(--gold)",
-                        marginTop: 2,
+                        zIndex: 1,
                       }}
                     >
                       {c.day}
                     </div>
-                    <div>
+                    {/* Content card */}
+                    <div
+                      style={{
+                        padding: "12px 14px",
+                        background: "rgba(201,168,76,0.02)",
+                        border: "1px solid rgba(201,168,76,0.1)",
+                        borderRadius: "var(--radius)",
+                      }}
+                    >
                       <p style={{ fontWeight: 700, color: "var(--white)", fontSize: "0.88rem", marginBottom: 2 }}>
                         {c.mentor}
                       </p>
                       <p
                         style={{
-                          fontSize: "0.7rem",
+                          fontSize: "0.68rem",
                           color: "var(--gold)",
-                          letterSpacing: "0.06em",
                           textTransform: "uppercase",
-                          marginBottom: c.description ? 4 : 0,
+                          letterSpacing: "0.08em",
+                          marginBottom: c.description ? 5 : 0,
                         }}
                       >
                         {c.role}
                       </p>
                       {c.description && (
-                        <p style={{ fontSize: "0.76rem", color: "var(--white-dim)", lineHeight: 1.5 }}>
+                        <p style={{ fontSize: "0.75rem", color: "var(--white-dim)", lineHeight: 1.5 }}>
                           {c.description}
                         </p>
                       )}
@@ -484,16 +524,15 @@ export default function BrandPage() {
                 <Swiper
                   ref={mentorsSwiperRef}
                   modules={[Autoplay]}
-                  autoplay={{ delay: 3500, disableOnInteraction: false }}
+                  autoplay={{ delay: 3000, disableOnInteraction: false }}
                   loop
-                  slidesPerView={2}
-                  spaceBetween={16}
-                  breakpoints={{ 0: { slidesPerView: 1 }, 480: { slidesPerView: 2 } }}
+                  slidesPerView="auto"
+                  spaceBetween={12}
                 >
                   {creators
                     .filter((c) => c.image)
                     .map((c) => (
-                      <SwiperSlide key={c.day}>
+                      <SwiperSlide key={c.day} style={{ width: 150 }}>
                         <a
                           href={c.image!}
                           data-fancybox="nkf-mentors"
@@ -506,7 +545,7 @@ export default function BrandPage() {
                             loading="lazy"
                             style={{
                               width: "100%",
-                              aspectRatio: "9/16",
+                              aspectRatio: "2/3",
                               objectFit: "cover",
                               borderRadius: "var(--radius)",
                               border: "1px solid rgba(201,168,76,0.1)",
@@ -514,10 +553,10 @@ export default function BrandPage() {
                             }}
                           />
                         </a>
-                        <p style={{ fontWeight: 700, color: "var(--white)", fontSize: "0.82rem", marginTop: 8, textAlign: "center" }}>
+                        <p style={{ fontWeight: 700, color: "var(--white)", fontSize: "0.78rem", marginTop: 8, textAlign: "center" }}>
                           {c.mentor}
                         </p>
-                        <p style={{ fontSize: "0.7rem", color: "var(--gold)", textAlign: "center", marginTop: 2 }}>
+                        <p style={{ fontSize: "0.65rem", color: "var(--gold)", textAlign: "center", marginTop: 2 }}>
                           {c.role}
                         </p>
                       </SwiperSlide>
