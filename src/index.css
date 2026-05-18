@@ -171,3 +171,53 @@ section { padding: 100px 0; }
 [data-gsap="fade-up"] { opacity: 0; transform: translateY(30px); }
 [data-gsap="slide-left"] { opacity: 0; transform: translateX(-40px); }
 [data-gsap="slide-right"] { opacity: 0; transform: translateX(40px); }
+
+/* ── Global mobile-safe base ── */
+html, body { overflow-x: hidden; max-width: 100vw; }
+
+/* ── Mobile responsive ── */
+@media (max-width: 768px) {
+  section { padding: 60px 0; }
+  .section-title { font-size: clamp(1.8rem, 8vw, 3rem); }
+
+  /* VideoDetail 2-col → 1-col */
+  .vd-player-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* VideoCarousel padding */
+  .vc-wrap { padding: 0 36px !important; }
+
+  /* Hero CTA buttons stack */
+  .hero-cta-group { flex-direction: column; gap: 12px !important; }
+  .hero-cta-group .btn-primary,
+  .hero-cta-group .btn-ghost { width: 100%; text-align: center; }
+
+  /* Contact grid */
+  .contact-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+
+  /* Services grid */
+  .services-grid { grid-template-columns: 1fr !important; }
+
+  /* Awards */
+  .award-row { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .award-row.reverse .award-text { order: 1 !important; }
+  .award-row.reverse .award-media { order: 2 !important; }
+
+  /* Brand page grids */
+  .nk-about-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .nk-pw-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .nk-media-grid { grid-template-columns: 1fr !important; }
+
+  /* Work page */
+  .work-filter-bar { flex-wrap: wrap; gap: 8px !important; }
+
+  /* Category page grid min size */
+  .cat-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .section-title { font-size: clamp(1.6rem, 9vw, 2.4rem); }
+  .btn-primary, .btn-ghost { padding: 12px 22px; font-size: 0.78rem; }
+}

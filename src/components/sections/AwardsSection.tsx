@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { SwiperRef } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -8,20 +8,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
 import { ytThumb } from "@/lib/utils";
-import type { AwardsData, AwardItem } from "@/types";
+import { useAwards } from "@/hooks/useQueries";
+import type { AwardItem } from "@/types";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function AwardsSection() {
   const ref = useRef<HTMLElement>(null);
-  const [data, setData] = useState<AwardsData | null>(null);
+  const { data } = useAwards();
   useFancybox();
-
-  useEffect(() => {
-    fetch("/data/awards.json")
-      .then((r) => r.json())
-      .then(setData)
-      .catch(() => setData(null));
-  }, []);
 
   useEffect(() => {
     if (!data) return;
@@ -100,8 +94,39 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
         <p style={{ fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 12 }}>{award.subtitle}</p>
         <p style={{ color: "var(--white-dim)", lineHeight: 1.8, fontSize: "0.88rem" }}>{award.description}</p>
         {award.videoId && (
-          <a href={`https://www.youtube.com/watch?v=${award.videoId}`} data-fancybox={`${gid}-vid`} data-type="iframe" data-src={`https://www.youtube.com/embed/${award.videoId}?autoplay=1`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 16, color: "var(--gold)", fontSize: "0.8rem", fontWeight: 600, textTransform: "uppercase", background: "rgba(201,168,76,0.07)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: "var(--radius)", padding: "8px 14px" }}>
-            <span>▶</span> Watch Video
+          <a
+            href={`https://www.youtube.com/watch?v=${award.videoId}`}
+            data-fancybox={`${gid}-vid`}
+            data-type="iframe"
+            data-src={`https://www.youtube.com/embed/${award.videoId}?autoplay=1`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              marginTop: 20,
+              background: "var(--dark-2)",
+              border: "1px solid rgba(201,168,76,0.12)",
+              borderRadius: "var(--radius)",
+              overflow: "hidden",
+              transition: "border-color 0.35s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.12)"; }}
+          >
+            <div style={{ position: "relative", width: 140, flexShrink: 0 }}>
+              <img
+                src={ytThumb(award.videoId, "mqdefault")}
+                alt="Watch video"
+                style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }}
+              />
+              <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: "1.5rem", color: "var(--gold)" }}>▶</span>
+              </div>
+            </div>
+            <div style={{ padding: "8px 12px 8px 0", flex: 1 }}>
+              <p style={{ fontWeight: 700, color: "var(--white)", marginBottom: 4, fontSize: "0.85rem" }}>Watch Video</p>
+              <p style={{ fontSize: "0.72rem", color: "var(--white-dim)" }}>Official highlight reel</p>
+            </div>
           </a>
         )}
       </div>
@@ -126,13 +151,6 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
                 <button className="award-nav-btn prev" onClick={() => swiperRef.current?.swiper.slidePrev()} aria-label="Previous">‹</button>
                 <button className="award-nav-btn next" onClick={() => swiperRef.current?.swiper.slideNext()} aria-label="Next">›</button>
               </>
-            )}
-
-            {award.videoId && (
-              <a href={`https://www.youtube.com/watch?v=${award.videoId}`} data-fancybox={`${gid}-vid`} data-type="iframe" data-src={`https://www.youtube.com/embed/${award.videoId}?autoplay=1`} className="award-video-thumb">
-                <img src={ytThumb(award.videoId, "mqdefault")} alt="Watch video" style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} />
-                <div className="award-play-overlay"><span style={{ fontSize: "2.8rem", color: "var(--white)" }}>▶</span></div>
-              </a>
             )}
           </>
         ) : award.videoId ? (

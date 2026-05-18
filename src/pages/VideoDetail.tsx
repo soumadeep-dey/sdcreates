@@ -1,33 +1,28 @@
-import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import ReactPlayer from "react-player";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import useFancybox from "@/hooks/useFancybox";
-import { ytThumb, ytUrl } from "@/lib/utils";
+import { ytUrl, ytThumb } from "@/lib/utils";
+import VideoCarousel from "@/components/ui/VideoCarousel";
 import Contact from "@/components/sections/Contact";
-import type { Category, VideoData } from "@/types";
+import { useCategories, useVideos, useVideoMeta } from "@/hooks/useQueries";
 
 export default function VideoDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [videos, setVideos] = useState<VideoData>({});
+  const { data: categories = [] } = useCategories();
+  const { data: videos = {} } = useVideos();
+  const {
+    data: meta = {} as Record<
+      string,
+      Pick<import("@/types").YTVideo, "title" | "description" | "thumbnail">
+    >,
+  } = useVideoMeta();
   useFancybox();
 
-  useEffect(() => {
-    Promise.all([
-      fetch("/data/categories.json").then((r) => r.json()),
-      fetch("/data/videos.json").then((r) => r.json()),
-    ]).then(([cats, vids]) => {
-      setCategories(cats);
-      setVideos(vids);
-    });
-  }, []);
-
   const videoId = slug || "";
+  const videoMeta = meta[videoId];
   const parentCat = categories.find((c) =>
     (videos[c.slug] || []).includes(videoId),
   );
@@ -39,7 +34,11 @@ export default function VideoDetail() {
   return (
     <>
       <Helmet>
-        <title>Watch — Soumadeep Dey</title>
+        <title>
+          {videoMeta?.title
+            ? `${videoMeta.title} — Soumadeep Dey`
+            : "Watch — Soumadeep Dey"}
+        </title>
       </Helmet>
 
       <section
@@ -65,6 +64,7 @@ export default function VideoDetail() {
           </Link>
 
           <div
+            className="vd-player-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 340px",
@@ -90,23 +90,48 @@ export default function VideoDetail() {
                 />
               </div>
               {parentCat && (
-                <div style={{ marginTop: 16 }}>
-                  <Link
-                    to={`/work/category/${parentCat.slug}`}
-                    style={{
-                      fontSize: "0.7rem",
-                      fontWeight: 600,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "var(--gold)",
-                      border: "1px solid rgba(201,168,76,0.3)",
-                      padding: "4px 10px",
-                      borderRadius: 2,
-                      display: "inline-block",
-                    }}
-                  >
-                    {parentCat.label}
-                  </Link>
+                <div
+                  style={{
+                    marginTop: 16,
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    gap: 16,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div>
+                    {videoMeta?.title && (
+                      <h1
+                        style={{
+                          fontFamily: "var(--font-serif)",
+                          fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
+                          fontWeight: 700,
+                          color: "var(--white)",
+                          marginBottom: 8,
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {videoMeta.title}
+                      </h1>
+                    )}
+                    <Link
+                      to={`/work/category/${parentCat.slug}`}
+                      style={{
+                        fontSize: "0.7rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: "var(--gold)",
+                        border: "1px solid rgba(201,168,76,0.3)",
+                        padding: "4px 10px",
+                        borderRadius: 2,
+                        display: "inline-block",
+                      }}
+                    >
+                      {parentCat.label}
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
@@ -160,18 +185,14 @@ export default function VideoDetail() {
                         style={{
                           fontSize: "0.75rem",
                           color: "var(--white)",
-                          lineHeight: 1.5,
+                          lineHeight: 1.4,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
                         }}
                       >
-                        Watch
-                      </p>
-                      <p
-                        style={{
-                          fontSize: "0.68rem",
-                          color: "var(--white-dim)",
-                        }}
-                      >
-                        {id}
+                        {meta[id]?.title || "Watch"}
                       </p>
                     </div>
                   </Link>
@@ -182,96 +203,67 @@ export default function VideoDetail() {
         </div>
       </section>
 
-      {/* Related categories */}
+      {/* Explore — category-wise video carousels */}
       {otherCats.length > 0 && (
-        <section style={{ padding: "60px 0", background: "var(--dark)" }}>
-          <div className="container">
+        <section style={{ padding: "60px 0 80px", background: "var(--dark)" }}>
+          <div className="container" style={{ marginBottom: 40 }}>
             <p className="section-eyebrow">Explore</p>
-            <h2 className="section-title" style={{ marginBottom: 28 }}>
+            <h2 className="section-title" style={{ marginBottom: 0 }}>
               More <em>Work</em>
             </h2>
-            <div style={{ position: "relative" }}>
-              <Swiper
-                modules={[Navigation]}
-                navigation={{ nextEl: ".vd-next", prevEl: ".vd-prev" }}
-                slidesPerView="auto"
-                spaceBetween={12}
-              >
-                {otherCats.map((c) => (
-                  <SwiperSlide key={c.slug} style={{ width: 200 }}>
-                    <Link
-                      to={`/work/category/${c.slug}`}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: 120,
-                        background: "var(--dark-2)",
-                        border: "1px solid rgba(201,168,76,0.1)",
-                        borderRadius: "var(--radius)",
-                        gap: 8,
-                        transition: "border-color 0.35s",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor =
-                          "rgba(201,168,76,0.4)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor =
-                          "rgba(201,168,76,0.1)";
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontFamily: "var(--font-serif)",
-                          fontWeight: 700,
-                          color: "var(--white)",
-                          fontSize: "0.9rem",
-                        }}
-                      >
-                        {c.label}
-                      </p>
-                      <p style={{ fontSize: "0.68rem", color: "var(--gold)" }}>
-                        {(videos[c.slug] || []).length} videos
-                      </p>
-                    </Link>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <button className="vd-prev" style={navBtn("left")}>
-                ‹
-              </button>
-              <button className="vd-next" style={navBtn("right")}>
-                ›
-              </button>
-            </div>
           </div>
+
+          {otherCats.map((c) => {
+            const catIds = (videos[c.slug] || []).slice(0, 12);
+            if (!catIds.length) return null;
+            return (
+              <div key={c.slug} style={{ marginBottom: 52 }}>
+                <div
+                  className="container"
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    justifyContent: "space-between",
+                    marginBottom: 16,
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: "1.3rem",
+                      fontWeight: 700,
+                      color: "var(--white)",
+                    }}
+                  >
+                    {c.label}
+                  </h3>
+                  <Link
+                    to={`/work/category/${c.slug}`}
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 600,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "var(--gold)",
+                    }}
+                  >
+                    See All →
+                  </Link>
+                </div>
+                <div className="container">
+                  <VideoCarousel
+                    videoIds={catIds}
+                    groupId={`vd-${c.slug}`}
+                    linkToPage
+                  />
+                </div>
+              </div>
+            );
+          })}
         </section>
       )}
 
       <Contact />
     </>
   );
-}
-
-function navBtn(side: "left" | "right"): React.CSSProperties {
-  return {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    [side]: -12,
-    zIndex: 10,
-    background: "rgba(8,8,8,0.7)",
-    border: "1px solid rgba(201,168,76,0.3)",
-    color: "var(--gold)",
-    width: 36,
-    height: 36,
-    borderRadius: "50%",
-    cursor: "pointer",
-    fontSize: "1.2rem",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
 }

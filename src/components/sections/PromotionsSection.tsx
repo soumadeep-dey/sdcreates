@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -8,30 +8,31 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import type { Promotion } from "@/types";
+import { usePromotions } from "@/hooks/useQueries";
 gsap.registerPlugin(ScrollTrigger);
 
 type FlatImage = { src: string; brand: string; folder: string };
 
 export default function PromotionsSection() {
   const ref = useRef<HTMLElement>(null);
-  const [images, setImages] = useState<FlatImage[]>([]);
+  const { data: promos } = usePromotions();
   useFancybox();
 
-  useEffect(() => {
-    fetch("/data/promotions.json")
-      .then((r) => r.json())
-      .then((promos: Promotion[]) => {
-        const flat: FlatImage[] = [];
-        for (const p of promos) {
-          for (const img of p.images.slice(0, 1)) {
-            flat.push({ src: `/assets/promotions/${p.folder}/${img}`, brand: p.brand, folder: p.folder });
-          }
-          if (flat.length >= 12) break;
-        }
-        setImages(flat.slice(0, 12));
-      });
-  }, []);
+  const images = useMemo<FlatImage[]>(() => {
+    if (!promos) return [];
+    const flat: FlatImage[] = [];
+    for (const p of promos) {
+      for (const img of p.images.slice(0, 1)) {
+        flat.push({
+          src: `/assets/promotions/${p.folder}/${img}`,
+          brand: p.brand,
+          folder: p.folder,
+        });
+      }
+      if (flat.length >= 12) break;
+    }
+    return flat.slice(0, 12);
+  }, [promos]);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -52,8 +53,19 @@ export default function PromotionsSection() {
   }, []);
 
   return (
-    <section id="promotions" ref={ref} style={{ padding: "100px 0", background: "var(--black)", overflow: "hidden" }}>
-      <div className="container promo-title-wrap" style={{ marginBottom: 52, opacity: 0 }}>
+    <section
+      id="promotions"
+      ref={ref}
+      style={{
+        padding: "100px 0",
+        background: "var(--black)",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        className="container promo-title-wrap"
+        style={{ marginBottom: 52, opacity: 0 }}
+      >
         <p className="section-eyebrow">Brand Promotions</p>
         <h2 className="section-title">
           Creative work
@@ -64,12 +76,19 @@ export default function PromotionsSection() {
 
       {images.length > 0 && (
         <div style={{ position: "relative", paddingInline: 60 }}>
-          <button className="promo-flat-prev" style={navBtnStyle("left")}><FiChevronLeft size={20} /></button>
-          <button className="promo-flat-next" style={navBtnStyle("right")}><FiChevronRight size={20} /></button>
+          <button className="promo-flat-prev" style={navBtnStyle("left")}>
+            <FiChevronLeft size={20} />
+          </button>
+          <button className="promo-flat-next" style={navBtnStyle("right")}>
+            <FiChevronRight size={20} />
+          </button>
 
           <Swiper
             modules={[Navigation, Autoplay]}
-            navigation={{ nextEl: ".promo-flat-next", prevEl: ".promo-flat-prev" }}
+            navigation={{
+              nextEl: ".promo-flat-next",
+              prevEl: ".promo-flat-prev",
+            }}
             autoplay={{ delay: 2800, disableOnInteraction: false }}
             loop
             slidesPerView="auto"
@@ -83,7 +102,12 @@ export default function PromotionsSection() {
                   href={item.src}
                   data-fancybox="promotions-flat"
                   data-caption={item.brand}
-                  style={{ display: "block", position: "relative", borderRadius: "var(--radius)", overflow: "hidden" }}
+                  style={{
+                    display: "block",
+                    position: "relative",
+                    borderRadius: "var(--radius)",
+                    overflow: "hidden",
+                  }}
                 >
                   <img
                     src={item.src}
@@ -104,10 +128,19 @@ export default function PromotionsSection() {
                       left: 0,
                       right: 0,
                       padding: "28px 10px 10px",
-                      background: "linear-gradient(to top, rgba(0,0,0,0.75), transparent)",
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.75), transparent)",
                     }}
                   >
-                    <p style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--gold)" }}>
+                    <p
+                      style={{
+                        fontSize: "0.68rem",
+                        fontWeight: 700,
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "var(--gold)",
+                      }}
+                    >
                       {item.brand}
                     </p>
                   </div>
@@ -119,7 +152,9 @@ export default function PromotionsSection() {
       )}
 
       <div className="container" style={{ textAlign: "center", marginTop: 48 }}>
-        <Link to="/brand" className="btn-ghost">View All Brand Work →</Link>
+        <Link to="/brand" className="btn-ghost">
+          View All Brand Work →
+        </Link>
       </div>
     </section>
   );

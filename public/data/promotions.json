@@ -3,8 +3,31 @@
     "brand": "Coca-Cola",
     "folder": "cococola",
     "logo": "cococola.png",
-    "images": ["cococola1.webp", "cococola2.webp", "cococola3.webp"],
-    "videos": []
+    "images": [
+      "cococola1.webp",
+      "cococola2.webp",
+      "cococola3.webp"
+    ],
+    "videos": [
+      {
+        "id": "0rF64Uq0YF8",
+        "title": "coco cola",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/0rF64Uq0YF8/hqdefault.jpg"
+      },
+      {
+        "id": "Dh1xAu9MYLY",
+        "title": "coco cola",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/Dh1xAu9MYLY/hqdefault.jpg"
+      },
+      {
+        "id": "qJ6haU3qPDI",
+        "title": "coco cola",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/qJ6haU3qPDI/hqdefault.jpg"
+      }
+    ]
   },
   {
     "brand": "SVF",
@@ -56,42 +79,100 @@
     "brand": "Saregama",
     "folder": "saregama",
     "logo": "saregama.png",
-    "images": ["saregama.webp", "saregama1.webp", "saregama2.webp"],
-    "videos": []
+    "images": [
+      "saregama.webp",
+      "saregama1.webp",
+      "saregama2.webp"
+    ],
+    "videos": [
+      {
+        "id": "WcuabFyIavE",
+        "title": "saregama2",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/WcuabFyIavE/hqdefault.jpg"
+      },
+      {
+        "id": "x8xc1pfGzzA",
+        "title": "saregama1",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/x8xc1pfGzzA/hqdefault.jpg"
+      }
+    ]
   },
   {
     "brand": "Red Bull",
     "folder": "redbull",
     "logo": "redbull.png",
-    "images": ["redbull1.webp", "redbull2.webp", "redbull3.webp"],
+    "images": [
+      "redbull1.webp",
+      "redbull2.webp",
+      "redbull3.webp"
+    ],
     "videos": []
   },
   {
     "brand": "Big Bazaar",
     "folder": "big-bazar",
     "logo": "big-bazar.png",
-    "images": ["big-bazar1.webp", "big-bazar2.webp", "big-bazar3.webp"],
-    "videos": []
+    "images": [
+      "big-bazar1.webp",
+      "big-bazar2.webp",
+      "big-bazar3.webp"
+    ],
+    "videos": [
+      {
+        "id": "2jz7aUkbblg",
+        "title": "big bazar",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/2jz7aUkbblg/hqdefault.jpg"
+      }
+    ]
   },
   {
     "brand": "AB's Restaurant",
     "folder": "abs",
     "logo": "abs-resturant.png",
-    "images": ["abs1.webp", "abs2.webp", "abs3.webp", "abs4.webp"],
-    "videos": []
+    "images": [
+      "abs1.webp",
+      "abs2.webp",
+      "abs3.webp",
+      "abs4.webp"
+    ],
+    "videos": [
+      {
+        "id": "NHsXnKouPhA",
+        "title": "ABSOLUTE BARBECUES promotion",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/NHsXnKouPhA/hqdefault.jpg"
+      },
+      {
+        "id": "VgFlUt9zsxk",
+        "title": "ABSOLUTE BARBECUES promtional video",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/VgFlUt9zsxk/hqdefault.jpg"
+      }
+    ]
   },
   {
     "brand": "AIESEC",
     "folder": "aiesec",
     "logo": "aiesec.png",
-    "images": ["aiesec1.webp", "aiesec2.webp", "aiesec3.webp"],
+    "images": [
+      "aiesec1.webp",
+      "aiesec2.webp",
+      "aiesec3.webp"
+    ],
     "videos": []
   },
   {
     "brand": "Techno India University",
     "folder": "techno-india",
     "logo": "techno-india-university.png",
-    "images": ["techno-india.webp", "techno-india1.webp", "techno-india2.webp"],
+    "images": [
+      "techno-india.webp",
+      "techno-india1.webp",
+      "techno-india2.webp"
+    ],
     "videos": []
   },
   {
@@ -119,14 +200,28 @@
     "brand": "Nababiana Restaurant",
     "folder": "nababiana",
     "logo": "nababiana.png",
-    "images": ["nababiana.webp", "nababiana1.webp"],
-    "videos": []
+    "images": [
+      "nababiana.webp",
+      "nababiana1.webp"
+    ],
+    "videos": [
+      {
+        "id": "3_QkqXqSbAY",
+        "title": "nababiana",
+        "description": "",
+        "thumbnail": "https://i.ytimg.com/vi/3_QkqXqSbAY/hqdefault.jpg"
+      }
+    ]
   },
   {
     "brand": "Uribaba",
     "folder": "uribaba",
     "logo": "uribaba.png",
-    "images": ["uribaba1.webp", "uribaba2.webp", "uribaba3.webp"],
+    "images": [
+      "uribaba1.webp",
+      "uribaba2.webp",
+      "uribaba3.webp"
+    ],
     "videos": []
   },
   {
@@ -146,14 +241,21 @@
     "brand": "Tango App",
     "folder": "tango-app",
     "logo": null,
-    "images": ["tango.webp", "tango2.webp", "tango3.webp"],
+    "images": [
+      "tango.webp",
+      "tango2.webp",
+      "tango3.webp"
+    ],
     "videos": []
   },
   {
     "brand": "Music Video Promotion",
     "folder": "music-video-promotion",
     "logo": null,
-    "images": ["music-promotion.webp", "music-promotion2.webp"],
+    "images": [
+      "music-promotion.webp",
+      "music-promotion2.webp"
+    ],
     "videos": []
   },
   {

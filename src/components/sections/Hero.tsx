@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 
 export default function Hero() {
@@ -243,18 +244,9 @@ export default function Hero() {
           >
             View My Work
           </a>
-          <a
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="btn-ghost"
-          >
+          <Link to="/contact" className="btn-ghost">
             Get In Touch
-          </a>
+          </Link>
         </div>
       </div>
 

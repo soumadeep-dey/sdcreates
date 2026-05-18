@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, EffectCoverflow } from "swiper/modules";
@@ -12,41 +12,31 @@ import { ytThumb } from "@/lib/utils";
 import { FiPlay } from "react-icons/fi";
 import Contact from "@/components/sections/Contact";
 gsap.registerPlugin(ScrollTrigger);
-import type { Creator, Promotion, Brand, YTVideo } from "@/types";
+import {
+  useCreators,
+  usePromotions,
+  useBrands,
+  useFestivalVideos,
+  usePhotoWalkVideos,
+  usePhotowalk,
+} from "@/hooks/useQueries";
 
 export default function BrandPage() {
   const heroRef = useRef<HTMLElement>(null);
-  const [creators, setCreators] = useState<Creator[]>([]);
-  const [promotions, setPromotions] = useState<Promotion[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [festivalVideos, setFestivalVideos] = useState<YTVideo[]>([]);
-  const [photowalks, setPhotowalks] = useState<{
-    videos: YTVideo[];
-    photos: string[];
-  }>({ videos: [], photos: [] });
+  const { data: creators = [] } = useCreators();
+  const { data: promotions = [] } = usePromotions();
+  const { data: brands = [] } = useBrands();
+  const { data: festivalVideos = [] } = useFestivalVideos();
+  const { data: pwVids = [] } = usePhotoWalkVideos();
+  const { data: pwData } = usePhotowalk();
+
+  const photowalks = useMemo(
+    () => ({ videos: pwVids, photos: pwData?.photos || [] }),
+    [pwVids, pwData],
+  );
 
   const festivalRef = useRef<HTMLDivElement>(null);
   useFancybox();
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/data/creators.json").then((r) => r.json()),
-      fetch("/data/promotions.json").then((r) => r.json()),
-      fetch("/data/brands.json").then((r) => r.json()),
-      fetch("/data/namashkar-kolkata-festival.json").then((r) => r.json()),
-      fetch("/data/namashkar-kolkata-photowalk.json").then((r) => r.json()),
-      fetch("/data/photowalk.json").then((r) => r.json()),
-    ]).then(([c, p, b, festVids, pwVids, pw]) => {
-      setCreators(c);
-      setPromotions(p);
-      setBrands(b);
-      setFestivalVideos(Array.isArray(festVids) ? festVids : []);
-      setPhotowalks({
-        videos: Array.isArray(pwVids) ? pwVids : [],
-        photos: pw.photos || [],
-      });
-    });
-  }, []);
 
   useEffect(() => {
     if (!heroRef.current) return;

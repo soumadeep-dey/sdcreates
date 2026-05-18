@@ -27,8 +27,14 @@ export default function About() {
   const ref = useRef<HTMLElement>(null);
   const [visibleRoles, setVisibleRoles] = useState<string[]>([]);
   const countersRef = useRef<Map<string, HTMLSpanElement>>(new Map());
+  const timeoutIdsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
+    // Clear any pending timeouts and reset state from a previous render cycle
+    timeoutIdsRef.current.forEach(clearTimeout);
+    timeoutIdsRef.current = [];
+    setVisibleRoles([]);
+
     const ctx = gsap.context(() => {
       // Slide in from left
       gsap.fromTo(
@@ -109,9 +115,12 @@ export default function About() {
         if (triggered) return;
         triggered = true;
         ROLES.forEach((role, i) => {
-          setTimeout(() => {
-            setVisibleRoles((prev) => [...prev, role]);
+          const id = setTimeout(() => {
+            setVisibleRoles((prev) =>
+              prev.includes(role) ? prev : [...prev, role],
+            );
           }, i * 140);
+          timeoutIdsRef.current.push(id);
         });
       },
     });
@@ -119,6 +128,8 @@ export default function About() {
     return () => {
       ctx.revert();
       trigger.kill();
+      timeoutIdsRef.current.forEach(clearTimeout);
+      timeoutIdsRef.current = [];
     };
   }, []);
 
@@ -320,13 +331,31 @@ export default function About() {
                 style={{
                   fontSize: "0.72rem",
                   fontWeight: 500,
-                  letterSpacing: "0.08em",
-                  padding: "5px 14px",
-                  border: "1px solid rgba(201,168,76,0.3)",
-                  borderRadius: 2,
-                  color: "var(--gold)",
-                  background: "rgba(201,168,76,0.05)",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  padding: "6px 14px",
+                  border: "1px solid rgba(201,168,76,0.2)",
+                  borderRadius: 20,
+                  color: "var(--gold-light)",
+                  background: "rgba(201,168,76,0.08)",
                   animation: "roleTagIn 0.35s ease forwards",
+                  cursor: "default",
+                  transition:
+                    "background 0.35s, border-color 0.35s, color 0.35s, box-shadow 0.35s",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget;
+                  el.style.background = "rgba(201,168,76,0.18)";
+                  el.style.borderColor = "rgba(201,168,76,0.5)";
+                  el.style.color = "var(--gold)";
+                  el.style.boxShadow = "0 0 14px rgba(201,168,76,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget;
+                  el.style.background = "rgba(201,168,76,0.08)";
+                  el.style.borderColor = "rgba(201,168,76,0.2)";
+                  el.style.color = "var(--gold-light)";
+                  el.style.boxShadow = "none";
                 }}
               >
                 {role}

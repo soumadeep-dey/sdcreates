@@ -19,7 +19,7 @@ export interface Promotion {
   folder: string;
   logo: string | null;
   images: string[];
-  videos: string[];
+  videos: YTVideo[];
 }
 
 export interface AwardItem {

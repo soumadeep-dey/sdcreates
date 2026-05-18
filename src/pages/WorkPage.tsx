@@ -1,25 +1,14 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import useFancybox from "@/hooks/useFancybox";
 import VideoCarousel from "@/components/ui/VideoCarousel";
 import Contact from "@/components/sections/Contact";
-import type { Category, VideoData } from "@/types";
+import { useCategories, useVideos } from "@/hooks/useQueries";
 
 export default function WorkPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [videos, setVideos] = useState<VideoData>({});
+  const { data: categories = [] } = useCategories();
+  const { data: videos = {} } = useVideos();
   useFancybox();
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/data/categories.json").then((r) => r.json()),
-      fetch("/data/videos.json").then((r) => r.json()),
-    ]).then(([cats, vids]) => {
-      setCategories(cats);
-      setVideos(vids);
-    });
-  }, []);
 
   return (
     <>

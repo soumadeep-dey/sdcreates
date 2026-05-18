@@ -1,27 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
 import VideoCarousel from "@/components/ui/VideoCarousel";
-import type { Category, VideoData } from "@/types";
+import { useCategories, useVideos } from "@/hooks/useQueries";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function WorkSection() {
   const ref = useRef<HTMLElement>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [videos, setVideos] = useState<VideoData>({});
+  const { data: categories = [] } = useCategories();
+  const { data: videos = {} } = useVideos();
   useFancybox();
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/data/categories.json").then((r) => r.json()),
-      fetch("/data/videos.json").then((r) => r.json()),
-    ]).then(([cats, vids]) => {
-      setCategories(cats);
-      setVideos(vids);
-    });
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

@@ -1,21 +1,54 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { SwiperRef } from "swiper/react";
 import { Autoplay, Navigation, FreeMode } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
-import type { Brand } from "@/types";
+import { useBrands } from "@/hooks/useQueries";
 
 export default function BrandsSection() {
   const ref = useRef<HTMLElement>(null);
   const swiperRef = useRef<SwiperRef>(null);
-  const [brands, setBrands] = useState<Brand[]>([]);
+  const { data: brands = [] } = useBrands();
 
+  // Start autoplay only when the section is visible on screen.
   useEffect(() => {
-    fetch("/data/brands.json")
-      .then((r) => r.json())
-      .then(setBrands);
+    const el = ref.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const swiper = swiperRef.current?.swiper;
+          if (!swiper || !swiper.autoplay) return;
+
+          if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
+            // ensure autoplay params are set then start
+            (swiper.params as any).autoplay = {
+              delay: 0,
+              disableOnInteraction: true,
+              pauseOnMouseEnter: true,
+            };
+            try {
+              swiper.autoplay.start();
+            } catch (e) {
+              // ignore
+            }
+          } else {
+            try {
+              swiper.autoplay.stop();
+            } catch (e) {
+              // ignore
+            }
+          }
+        });
+      },
+      { threshold: [0, 0.25, 0.5] },
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -42,11 +75,21 @@ export default function BrandsSection() {
           onClick={() => swiperRef.current?.swiper.slidePrev()}
           aria-label="Previous brands"
           style={{
-            position: "absolute", left: 0, top: "50%", transform: "translateY(-50%)",
-            zIndex: 10, background: "rgba(8,8,8,0.85)",
-            border: "1px solid rgba(201,168,76,0.35)", color: "var(--gold)",
-            width: 36, height: 36, borderRadius: "50%", display: "flex",
-            alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
+            position: "absolute",
+            left: 0,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 10,
+            background: "rgba(8,8,8,0.85)",
+            border: "1px solid rgba(201,168,76,0.35)",
+            color: "var(--gold)",
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "1.2rem",
             cursor: "pointer",
           }}
         >
@@ -56,11 +99,21 @@ export default function BrandsSection() {
           onClick={() => swiperRef.current?.swiper.slideNext()}
           aria-label="Next brands"
           style={{
-            position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)",
-            zIndex: 10, background: "rgba(8,8,8,0.85)",
-            border: "1px solid rgba(201,168,76,0.35)", color: "var(--gold)",
-            width: 36, height: 36, borderRadius: "50%", display: "flex",
-            alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
+            position: "absolute",
+            right: 0,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 10,
+            background: "rgba(8,8,8,0.85)",
+            border: "1px solid rgba(201,168,76,0.35)",
+            color: "var(--gold)",
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "1.2rem",
             cursor: "pointer",
           }}
         >
@@ -82,51 +135,50 @@ export default function BrandsSection() {
             slidesPerView="auto"
             spaceBetween={40}
             loop
-            autoplay={{ delay: 0, disableOnInteraction: true, pauseOnMouseEnter: true }}
             speed={5000}
             allowTouchMove={true}
           >
-          {[...brands, ...brands]
-            .filter((b) => b.file)
-            .map((brand, i) => (
-              <SwiperSlide key={i} style={{ width: "auto" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: 60,
-                    padding: "0 8px",
-                  }}
-                >
-                  <img
-                    src={`/assets/brands/${brand.file}`}
-                    alt={brand.name}
-                    title={brand.name}
-                    loading="lazy"
+            {[...brands, ...brands]
+              .filter((b) => b.file)
+              .map((brand, i) => (
+                <SwiperSlide key={i} style={{ width: "auto" }}>
+                  <div
                     style={{
-                      height: 44,
-                      width: "auto",
-                      maxWidth: 120,
-                      objectFit: "contain",
-                      filter: "brightness(0.9) saturate(1.1)",
-                      transition: "filter 0.35s",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: 60,
+                      padding: "0 8px",
                     }}
-                    onMouseEnter={(e) => {
-                      (e.target as HTMLImageElement).style.filter =
-                        "brightness(1.1) saturate(1.3)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.target as HTMLImageElement).style.filter =
-                        "brightness(0.9) saturate(1.1)";
-                    }}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
+                  >
+                    <img
+                      src={`/assets/brands/${brand.file}`}
+                      alt={brand.name}
+                      title={brand.name}
+                      loading="lazy"
+                      style={{
+                        height: 44,
+                        width: "auto",
+                        maxWidth: 120,
+                        objectFit: "contain",
+                        filter: "brightness(0.9) saturate(1.1)",
+                        transition: "filter 0.35s",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.target as HTMLImageElement).style.filter =
+                          "brightness(1.1) saturate(1.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as HTMLImageElement).style.filter =
+                          "brightness(0.9) saturate(1.1)";
+                      }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>
