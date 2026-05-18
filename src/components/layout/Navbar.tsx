@@ -52,7 +52,7 @@ export default function Navbar() {
         right: 0,
         width: "100%",
         maxWidth: "100vw",
-        overflow: "hidden",
+        overflow: "visible",
         zIndex: 1000,
         height: "var(--nav-h)",
         display: "flex",
@@ -184,7 +184,7 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
             style={{
-              position: "absolute",
+              position: "fixed",
               top: "var(--nav-h)",
               left: 0,
               right: 0,
@@ -192,6 +192,9 @@ export default function Navbar() {
               backdropFilter: "blur(20px)",
               borderBottom: "1px solid rgba(201,168,76,0.15)",
               padding: "20px 24px 28px",
+              zIndex: 999,
+              maxWidth: "100vw",
+              overflow: "hidden",
             }}
           >
             <ul style={{ display: "flex", flexDirection: "column", gap: 4 }}>

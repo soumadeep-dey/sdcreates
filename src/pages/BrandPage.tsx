@@ -8,7 +8,7 @@ import "swiper/css/effect-coverflow";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
-import { ytThumb } from "@/lib/utils";
+import { ytThumb, ytUrl } from "@/lib/utils";
 import { FiPlay } from "react-icons/fi";
 import Contact from "@/components/sections/Contact";
 gsap.registerPlugin(ScrollTrigger);
@@ -1041,92 +1041,188 @@ export default function BrandPage() {
           <h2 className="section-title">
             Promotion <em>work.</em>
           </h2>
-          {promotions.map((promo) => (
-            <div key={promo.brand} style={{ marginBottom: 60 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  marginBottom: 16,
-                }}
-              >
-                {promo.logo && (
-                  <img
-                    src={`/assets/brands/${promo.logo}`}
-                    alt={promo.brand}
-                    style={{ height: 32, objectFit: "contain" }}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                )}
-                <h3
+          {promotions.map((promo) => {
+            // Create mixed items array (videos + images alternating)
+            const mixedItems: Array<
+              | { type: "video"; id: string; title: string; thumbnail: string }
+              | { type: "image"; src: string }
+            > = [];
+            const videos = (promo.videos || []).slice(0, 6);
+            const images = (promo.images || []).slice(0, 6);
+            let vIdx = 0,
+              iIdx = 0;
+
+            while (vIdx < videos.length || iIdx < images.length) {
+              if (vIdx < videos.length) {
+                mixedItems.push({
+                  type: "video",
+                  id: videos[vIdx].id,
+                  title: videos[vIdx].title,
+                  thumbnail: videos[vIdx].thumbnail,
+                });
+                vIdx++;
+              }
+              if (iIdx < images.length) {
+                mixedItems.push({
+                  type: "image",
+                  src: `/assets/promotions/${promo.folder}/${images[iIdx]}`,
+                });
+                iIdx++;
+              }
+            }
+
+            const displayItems = mixedItems.length > 0 ? mixedItems : images.map((img) => ({ type: "image" as const, src: `/assets/promotions/${promo.folder}/${img}` }));
+
+            return (
+              <div key={promo.brand} style={{ marginBottom: 60 }}>
+                <div
                   style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: "1.2rem",
-                    fontWeight: 700,
-                    color: "var(--white)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 14,
+                    marginBottom: 16,
                   }}
                 >
-                  {promo.brand}
-                </h3>
+                  {promo.logo && (
+                    <img
+                      src={`/assets/brands/${promo.logo}`}
+                      alt={promo.brand}
+                      style={{ height: 32, objectFit: "contain" }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                  )}
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: "1.2rem",
+                      fontWeight: 700,
+                      color: "var(--white)",
+                    }}
+                  >
+                    {promo.brand}
+                  </h3>
+                </div>
+                <div style={{ position: "relative" }}>
+                  <Swiper
+                    modules={[Navigation, EffectCoverflow]}
+                    effect="coverflow"
+                    coverflowEffect={{
+                      rotate: 30,
+                      stretch: 0,
+                      depth: 100,
+                      modifier: 1,
+                      slideShadows: true,
+                    }}
+                    navigation={{
+                      nextEl: `.bp-next-${promo.folder}`,
+                      prevEl: `.bp-prev-${promo.folder}`,
+                    }}
+                    slidesPerView="auto"
+                    centeredSlides
+                    spaceBetween={12}
+                  >
+                    {displayItems.map((item, idx) =>
+                      item.type === "video" ? (
+                        <SwiperSlide
+                          key={`vid-${item.id}-${idx}`}
+                          style={{ width: 180 }}
+                        >
+                          <a
+                            href={ytUrl(item.id)}
+                            data-fancybox={`bp-${promo.folder}`}
+                            data-width="640"
+                            data-height="360"
+                            style={{
+                              display: "block",
+                              position: "relative",
+                              borderRadius: "var(--radius)",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <img
+                              src={
+                                item.thumbnail ||
+                                ytThumb(item.id, "hqdefault")
+                              }
+                              alt={item.title}
+                              loading="lazy"
+                              style={{
+                                width: "100%",
+                                aspectRatio: "9/16",
+                                objectFit: "cover",
+                                display: "block",
+                              }}
+                            />
+                            <div
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                background: "rgba(0,0,0,0.3)",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: 60,
+                                  height: 60,
+                                  borderRadius: "50%",
+                                  background: "rgba(201,168,76,0.9)",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  color: "var(--black)",
+                                }}
+                              >
+                                <FiPlay size={24} />
+                              </div>
+                            </div>
+                          </a>
+                        </SwiperSlide>
+                      ) : (
+                        <SwiperSlide
+                          key={`img-${item.src}-${idx}`}
+                          style={{ width: 180 }}
+                        >
+                          <a
+                            href={item.src}
+                            data-fancybox={`bp-${promo.folder}`}
+                          >
+                            <img
+                              src={item.src}
+                              alt={`${promo.brand}`}
+                              loading="lazy"
+                              style={{
+                                width: "100%",
+                                aspectRatio: "9/16",
+                                objectFit: "cover",
+                                borderRadius: "var(--radius)",
+                              }}
+                            />
+                          </a>
+                        </SwiperSlide>
+                      ),
+                    )}
+                  </Swiper>
+                  <button
+                    className={`bp-prev-${promo.folder}`}
+                    style={navBtn("left")}
+                  >
+                    ‹
+                  </button>
+                  <button
+                    className={`bp-next-${promo.folder}`}
+                    style={navBtn("right")}
+                  >
+                    ›
+                  </button>
+                </div>
               </div>
-              <div style={{ position: "relative" }}>
-                <Swiper
-                  modules={[Navigation, EffectCoverflow]}
-                  effect="coverflow"
-                  coverflowEffect={{
-                    rotate: 30,
-                    stretch: 0,
-                    depth: 100,
-                    modifier: 1,
-                    slideShadows: true,
-                  }}
-                  navigation={{
-                    nextEl: `.bp-next-${promo.folder}`,
-                    prevEl: `.bp-prev-${promo.folder}`,
-                  }}
-                  slidesPerView="auto"
-                  centeredSlides
-                  spaceBetween={12}
-                >
-                  {promo.images.map((img) => (
-                    <SwiperSlide key={img} style={{ width: 180 }}>
-                      <a
-                        href={`/assets/promotions/${promo.folder}/${img}`}
-                        data-fancybox={`bp-${promo.folder}`}
-                      >
-                        <img
-                          src={`/assets/promotions/${promo.folder}/${img}`}
-                          alt={`${promo.brand}`}
-                          loading="lazy"
-                          style={{
-                            width: "100%",
-                            aspectRatio: "9/16",
-                            objectFit: "cover",
-                            borderRadius: "var(--radius)",
-                          }}
-                        />
-                      </a>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <button
-                  className={`bp-prev-${promo.folder}`}
-                  style={navBtn("left")}
-                >
-                  ‹
-                </button>
-                <button
-                  className={`bp-next-${promo.folder}`}
-                  style={navBtn("right")}
-                >
-                  ›
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

@@ -7,31 +7,69 @@ import "swiper/css/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiPlay } from "react-icons/fi";
 import { usePromotions } from "@/hooks/useQueries";
+import { ytUrl } from "@/lib/utils";
 gsap.registerPlugin(ScrollTrigger);
 
-type FlatImage = { src: string; brand: string; folder: string };
+type FlatItem =
+  | { type: "image"; src: string; brand: string; folder: string }
+  | {
+      type: "video";
+      id: string;
+      title: string;
+      thumbnail: string;
+      brand: string;
+    };
 
 export default function PromotionsSection() {
   const ref = useRef<HTMLElement>(null);
   const { data: promos } = usePromotions();
   useFancybox();
 
-  const images = useMemo<FlatImage[]>(() => {
+  const items = useMemo<FlatItem[]>(() => {
     if (!promos) return [];
-    const flat: FlatImage[] = [];
+    const flat: FlatItem[] = [];
+    const itemsPerBrand = 6; // max items per brand (video+image pairs)
+
     for (const p of promos) {
-      for (const img of p.images.slice(0, 1)) {
-        flat.push({
-          src: `/assets/promotions/${p.folder}/${img}`,
-          brand: p.brand,
-          folder: p.folder,
-        });
+      const videos = (p.videos || []).slice(0, 3);
+      const images = (p.images || []).slice(0, 3);
+      let vIdx = 0,
+        iIdx = 0;
+      let count = 0;
+
+      // Alternate: video, image, video, image, ...
+      while (
+        (vIdx < videos.length || iIdx < images.length) &&
+        count < itemsPerBrand
+      ) {
+        if (vIdx < videos.length) {
+          flat.push({
+            type: "video",
+            id: videos[vIdx].id,
+            title: videos[vIdx].title,
+            thumbnail: videos[vIdx].thumbnail,
+            brand: p.brand,
+          });
+          vIdx++;
+          count++;
+        }
+        if (iIdx < images.length && count < itemsPerBrand) {
+          flat.push({
+            type: "image",
+            src: `/assets/promotions/${p.folder}/${images[iIdx]}`,
+            brand: p.brand,
+            folder: p.folder,
+          });
+          iIdx++;
+          count++;
+        }
+        if (flat.length >= 24) break; // stop after enough total items
       }
-      if (flat.length >= 12) break;
+      if (flat.length >= 24) break;
     }
-    return flat.slice(0, 12);
+    return flat.slice(0, 24);
   }, [promos]);
 
   useEffect(() => {
@@ -74,7 +112,7 @@ export default function PromotionsSection() {
         </h2>
       </div>
 
-      {images.length > 0 && (
+      {items.length > 0 && (
         <div style={{ position: "relative", paddingInline: 60 }}>
           <button className="promo-flat-prev" style={navBtnStyle("left")}>
             <FiChevronLeft size={20} />
@@ -96,57 +134,141 @@ export default function PromotionsSection() {
             centeredSlides={false}
             style={{ paddingBottom: 8 }}
           >
-            {images.map((item, idx) => (
-              <SwiperSlide key={`${item.folder}-${idx}`} style={{ width: 200 }}>
-                <a
-                  href={item.src}
-                  data-fancybox="promotions-flat"
-                  data-caption={item.brand}
-                  style={{
-                    display: "block",
-                    position: "relative",
-                    borderRadius: "var(--radius)",
-                    overflow: "hidden",
-                  }}
+            {items.map((item, idx) =>
+              item.type === "video" ? (
+                <SwiperSlide
+                  key={`vid-${item.id}-${idx}`}
+                  style={{ width: 200 }}
                 >
-                  <img
-                    src={item.src}
-                    alt={item.brand}
-                    loading="lazy"
+                  <a
+                    href={ytUrl(item.id)}
+                    data-fancybox="promotions-mixed"
+                    data-width="640"
+                    data-height="360"
                     style={{
-                      width: "100%",
-                      aspectRatio: "9/16",
-                      objectFit: "cover",
                       display: "block",
-                      border: "1px solid rgba(201,168,76,0.1)",
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: "28px 10px 10px",
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.75), transparent)",
+                      position: "relative",
+                      borderRadius: "var(--radius)",
+                      overflow: "hidden",
                     }}
                   >
-                    <p
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      loading="lazy"
                       style={{
-                        fontSize: "0.68rem",
-                        fontWeight: 700,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: "var(--gold)",
+                        width: "100%",
+                        aspectRatio: "9/16",
+                        objectFit: "cover",
+                        display: "block",
+                        border: "1px solid rgba(201,168,76,0.1)",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: "rgba(0,0,0,0.3)",
                       }}
                     >
-                      {item.brand}
-                    </p>
-                  </div>
-                </a>
-              </SwiperSlide>
-            ))}
+                      <div
+                        style={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: "50%",
+                          background: "rgba(201,168,76,0.9)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "var(--black)",
+                        }}
+                      >
+                        <FiPlay size={24} />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        padding: "28px 10px 10px",
+                        background:
+                          "linear-gradient(to top, rgba(0,0,0,0.75), transparent)",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "0.68rem",
+                          fontWeight: 700,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: "var(--gold)",
+                        }}
+                      >
+                        {item.brand}
+                      </p>
+                    </div>
+                  </a>
+                </SwiperSlide>
+              ) : (
+                <SwiperSlide
+                  key={`img-${item.src}-${idx}`}
+                  style={{ width: 200 }}
+                >
+                  <a
+                    href={item.src}
+                    data-fancybox="promotions-mixed"
+                    data-caption={item.brand}
+                    style={{
+                      display: "block",
+                      position: "relative",
+                      borderRadius: "var(--radius)",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.brand}
+                      loading="lazy"
+                      style={{
+                        width: "100%",
+                        aspectRatio: "9/16",
+                        objectFit: "cover",
+                        display: "block",
+                        border: "1px solid rgba(201,168,76,0.1)",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        padding: "28px 10px 10px",
+                        background:
+                          "linear-gradient(to top, rgba(0,0,0,0.75), transparent)",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "0.68rem",
+                          fontWeight: 700,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: "var(--gold)",
+                        }}
+                      >
+                        {item.brand}
+                      </p>
+                    </div>
+                  </a>
+                </SwiperSlide>
+              ),
+            )}
           </Swiper>
         </div>
       )}
