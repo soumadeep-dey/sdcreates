@@ -1,9 +1,10 @@
 import { useEffect, useRef, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay, EffectCoverflow } from "swiper/modules";
+import { Navigation, Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -110,7 +111,7 @@ export default function BrandPage() {
       >
         {/* Full-bleed banner */}
         <img
-          src="/assets/namashkar-kolkata/Youtube_Banner.webp"
+          src="/assets/namashkar-kolkata/paper.webp"
           alt="Namashkar Kolkata"
           style={{
             position: "absolute",
@@ -155,8 +156,8 @@ export default function BrandPage() {
           >
             <div
               style={{
-                width: 120,
-                height: 120,
+                width: "clamp(80px, 18vw, 120px)",
+                height: "clamp(80px, 18vw, 120px)",
                 borderRadius: "50%",
                 border: "2px solid var(--gold)",
                 padding: 4,
@@ -208,7 +209,7 @@ export default function BrandPage() {
             <h1
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(3rem, 8vw, 7rem)",
+                fontSize: "clamp(2.5rem, 8vw, 7rem)",
                 lineHeight: 0.92,
                 color: "var(--white)",
                 marginBottom: 20,
@@ -288,11 +289,12 @@ export default function BrandPage() {
       {/* ── NK About ── */}
       <section style={{ padding: "80px 0", background: "var(--black)" }}>
         <div
-          className="container"
+          className="container nk-about-grid"
+          id="brand-about-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: 64,
+            gap: "clamp(32px, 5vw, 64px)",
             alignItems: "start",
           }}
         >
@@ -330,7 +332,7 @@ export default function BrandPage() {
               {[
                 ["70K+", "Followers"],
                 ["1M+", "Monthly Reach"],
-                ["500+", "Content Pieces"],
+                ["Millions", "Video Views"],
               ].map(([n, l]) => (
                 <div key={l}>
                   <span
@@ -384,7 +386,6 @@ export default function BrandPage() {
             ></div>
           </div>
         </div>
-        <style>{`@media(max-width:768px){#brand-about-grid{grid-template-columns:1fr!important}}`}</style>
       </section>
 
       {/* ── NK Festival ── */}
@@ -410,10 +411,11 @@ export default function BrandPage() {
           {/* Festival Schedule + Mentors — side by side */}
           <div
             id="nkf-schedule-grid"
+            className="nk-festival-schedule-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              gap: 48,
+              gap: "clamp(40px, 5vw, 48px)",
               alignItems: "start",
               marginBottom: 48,
             }}
@@ -538,6 +540,7 @@ export default function BrandPage() {
               </h3>
               <div style={{ position: "relative" }}>
                 <div
+                  className="nk-mentors-grid"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(3, 1fr)",
@@ -611,19 +614,29 @@ export default function BrandPage() {
               </h3>
               <div style={{ position: "relative" }}>
                 <Swiper
-                  modules={[Navigation, Autoplay]}
+                  modules={[Navigation, Autoplay, Pagination]}
                   autoplay={{ delay: 3500, disableOnInteraction: false }}
                   loop
-                  slidesPerView={3}
-                  spaceBetween={10}
+                  slidesPerView="auto"
+                  spaceBetween={12}
+                  navigation={{
+                    nextEl: ".fest-next",
+                    prevEl: ".fest-prev",
+                  }}
+                  pagination={{
+                    el: ".fest-pagination",
+                    type: "bullets",
+                    clickable: true,
+                  }}
                   style={{
                     width: "100%",
                     borderRadius: "var(--radius)",
                     overflow: "hidden",
                   }}
+                  className="nk-festival-swiper"
                 >
                   {festivalVideos.map((v) => (
-                    <SwiperSlide key={v.id}>
+                    <SwiperSlide key={v.id} style={{ width: 220 }}>
                       <a
                         href={`https://www.youtube.com/watch?v=${v.id}`}
                         data-fancybox="festival-vids"
@@ -701,11 +714,11 @@ export default function BrandPage() {
                 >
                   ›
                 </button>
+                <div className="fest-pagination" style={{ position: "relative", marginTop: 12 }} />
               </div>
             </div>
           )}
         </div>
-        <style>{`@media(max-width:768px){#nkf-grid,#nkf-schedule-grid{grid-template-columns:1fr!important}}`}</style>
       </section>
 
       {/* ── NK Photowalk ── */}
@@ -718,10 +731,11 @@ export default function BrandPage() {
 
           <div
             id="pw-intro-grid"
+            className="nk-pw-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              gap: 48,
+              gap: "clamp(32px, 5vw, 48px)",
               alignItems: "center",
               marginBottom: 48,
             }}
@@ -763,6 +777,8 @@ export default function BrandPage() {
                     width: "100%",
                     gap: 16,
                     padding: 12,
+                    marginTop: 20,
+                    flexWrap: "wrap",
                   }}
                 >
                   <div
@@ -835,6 +851,7 @@ export default function BrandPage() {
           {/* Media recognition */}
           <div
             id="pw-media-grid"
+            className="nk-media-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -950,15 +967,21 @@ export default function BrandPage() {
           {photowalks.photos.length > 0 && (
             <div style={{ position: "relative" }}>
               <Swiper
-                modules={[Navigation, Autoplay]}
+                modules={[Navigation, Autoplay, Pagination]}
                 navigation={{ nextEl: ".pw-next", prevEl: ".pw-prev" }}
                 autoplay={{ delay: 3000 }}
                 loop
-                slidesPerView={3}
+                slidesPerView="auto"
                 spaceBetween={12}
+                pagination={{
+                  el: ".pw-pagination",
+                  type: "bullets",
+                  clickable: true,
+                }}
+                className="nk-photowalk-swiper"
               >
                 {photowalks.photos.map((p) => (
-                  <SwiperSlide key={p} style={{ width: 280 }}>
+                  <SwiperSlide key={p} style={{ width: 220 }}>
                     <a href={p} data-fancybox="pw-gallery">
                       <img
                         src={p}
@@ -981,10 +1004,10 @@ export default function BrandPage() {
               <button className="pw-next" style={navBtn("right")}>
                 ›
               </button>
+              <div className="pw-pagination" style={{ position: "relative", marginTop: 12 }} />
             </div>
           )}
         </div>
-        <style>{`@media(max-width:768px){#pw-intro-grid,#pw-media-grid{grid-template-columns:1fr!important}}`}</style>
       </section>
 
       {/* ── Brands Grid ── */}
@@ -997,6 +1020,7 @@ export default function BrandPage() {
             Brands worked <em>for.</em>
           </h2>
           <div
+            className="nk-brands-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
@@ -1071,7 +1095,13 @@ export default function BrandPage() {
               }
             }
 
-            const displayItems = mixedItems.length > 0 ? mixedItems : images.map((img) => ({ type: "image" as const, src: `/assets/promotions/${promo.folder}/${img}` }));
+            const displayItems =
+              mixedItems.length > 0
+                ? mixedItems
+                : images.map((img) => ({
+                    type: "image" as const,
+                    src: `/assets/promotions/${promo.folder}/${img}`,
+                  }));
 
             return (
               <div key={promo.brand} style={{ marginBottom: 60 }}>
@@ -1122,6 +1152,20 @@ export default function BrandPage() {
                     slidesPerView="auto"
                     centeredSlides
                     spaceBetween={12}
+                    breakpoints={{
+                      768: { slidesPerView: "auto", spaceBetween: 12 },
+                      480: {
+                        slidesPerView: 1.2,
+                        spaceBetween: 10,
+                        centeredSlides: true,
+                      },
+                      0: {
+                        slidesPerView: 1.1,
+                        spaceBetween: 8,
+                        centeredSlides: true,
+                      },
+                    }}
+                    className="nk-promo-swiper"
                   >
                     {displayItems.map((item, idx) =>
                       item.type === "video" ? (
@@ -1143,8 +1187,7 @@ export default function BrandPage() {
                           >
                             <img
                               src={
-                                item.thumbnail ||
-                                ytThumb(item.id, "hqdefault")
+                                item.thumbnail || ytThumb(item.id, "hqdefault")
                               }
                               alt={item.title}
                               loading="lazy"
