@@ -1,10 +1,11 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import type { SwiperRef } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ytThumb, ytUrl } from "@/lib/utils";
@@ -51,13 +52,19 @@ export default function VideoCarousel({
   }
 
   return (
-    <div style={{ position: "relative", padding: "0 48px" }}>
+    <div style={{ position: "relative", padding: "0 48px", paddingBottom: 48 }}>
       <Swiper
         ref={swiperRef}
-        modules={[Navigation]}
+        modules={[Navigation, Pagination]}
         navigation={{
           nextEl: `.vc-next-${groupId}`,
           prevEl: `.vc-prev-${groupId}`,
+        }}
+        pagination={{
+          el: `.vc-pagination-${groupId}`,
+          clickable: true,
+          bulletClass: "vc-bullet",
+          bulletActiveClass: "vc-bullet-active",
         }}
         slidesPerView="auto"
         spaceBetween={12}
@@ -82,6 +89,16 @@ export default function VideoCarousel({
       >
         <FiChevronRight size={20} />
       </button>
+
+      <div
+        className={`vc-pagination-${groupId}`}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 8,
+          marginTop: 12,
+        }}
+      />
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
@@ -113,7 +114,9 @@ export default function PromotionsSection() {
       </div>
 
       {items.length > 0 && (
-        <div style={{ position: "relative", paddingInline: 60 }}>
+        <div
+          style={{ position: "relative", paddingInline: 48, paddingBottom: 36 }}
+        >
           <button className="promo-flat-prev" style={navBtnStyle("left")}>
             <FiChevronLeft size={20} />
           </button>
@@ -122,16 +125,23 @@ export default function PromotionsSection() {
           </button>
 
           <Swiper
-            modules={[Navigation, Autoplay]}
+            modules={[Navigation, Autoplay, Pagination]}
             navigation={{
               nextEl: ".promo-flat-next",
               prevEl: ".promo-flat-prev",
+            }}
+            pagination={{
+              el: ".promo-flat-pagination",
+              clickable: true,
+              bulletClass: "promo-bullet",
+              bulletActiveClass: "promo-bullet-active",
             }}
             autoplay={{ delay: 2800, disableOnInteraction: false }}
             loop
             slidesPerView="auto"
             spaceBetween={16}
             centeredSlides={false}
+            className="promo-flat-swiper"
             style={{ paddingBottom: 8 }}
           >
             {items.map((item, idx) =>
@@ -270,6 +280,16 @@ export default function PromotionsSection() {
               ),
             )}
           </Swiper>
+
+          <div
+            className="promo-flat-pagination"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 8,
+              marginTop: 12,
+            }}
+          />
         </div>
       )}
 

@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import type { SwiperRef } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
@@ -90,9 +91,37 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
   return (
     <div className={`award-row${reverse ? " reverse" : ""}`}>
       <div className="award-text">
-        <h4 style={{ fontFamily: "var(--font-serif)", fontSize: "1.4rem", fontWeight: 700, marginBottom: 8 }}>{award.title}</h4>
-        <p style={{ fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 12 }}>{award.subtitle}</p>
-        <p style={{ color: "var(--white-dim)", lineHeight: 1.8, fontSize: "0.88rem" }}>{award.description}</p>
+        <h4
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "1.4rem",
+            fontWeight: 700,
+            marginBottom: 8,
+          }}
+        >
+          {award.title}
+        </h4>
+        <p
+          style={{
+            fontSize: "0.78rem",
+            fontWeight: 600,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: "var(--gold)",
+            marginBottom: 12,
+          }}
+        >
+          {award.subtitle}
+        </p>
+        <p
+          style={{
+            color: "var(--white-dim)",
+            lineHeight: 1.8,
+            fontSize: "0.88rem",
+          }}
+        >
+          {award.description}
+        </p>
         {award.videoId && (
           <a
             href={`https://www.youtube.com/watch?v=${award.videoId}`}
@@ -110,22 +139,53 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
               overflow: "hidden",
               transition: "border-color 0.35s",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.12)"; }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(201,168,76,0.12)";
+            }}
           >
             <div style={{ position: "relative", width: 140, flexShrink: 0 }}>
               <img
                 src={ytThumb(award.videoId, "mqdefault")}
                 alt="Watch video"
-                style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }}
+                style={{
+                  width: "100%",
+                  aspectRatio: "16/9",
+                  objectFit: "cover",
+                  display: "block",
+                }}
               />
-              <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ fontSize: "1.5rem", color: "var(--gold)" }}>▶</span>
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "rgba(0,0,0,0.35)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <span style={{ fontSize: "1.5rem", color: "var(--gold)" }}>
+                  ▶
+                </span>
               </div>
             </div>
             <div style={{ padding: "8px 12px 8px 0", flex: 1 }}>
-              <p style={{ fontWeight: 700, color: "var(--white)", marginBottom: 4, fontSize: "0.85rem" }}>Watch Video</p>
-              <p style={{ fontSize: "0.72rem", color: "var(--white-dim)" }}>Official highlight reel</p>
+              <p
+                style={{
+                  fontWeight: 700,
+                  color: "var(--white)",
+                  marginBottom: 4,
+                  fontSize: "0.85rem",
+                }}
+              >
+                Watch Video
+              </p>
+              <p style={{ fontSize: "0.72rem", color: "var(--white-dim)" }}>
+                Official highlight reel
+              </p>
             </div>
           </a>
         )}
@@ -134,12 +194,44 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
       <div className="award-media">
         {(award.images || []).length > 0 ? (
           <>
-            <div style={{ borderRadius: "var(--radius)", overflow: "hidden", position: "relative" }}>
-              <Swiper ref={swiperRef} modules={[Autoplay, Navigation]} autoplay={hasMultiple ? { delay: 3200, disableOnInteraction: false } : false} loop={hasMultiple} slidesPerView={1}>
+            <div
+              style={{
+                borderRadius: "var(--radius)",
+                overflow: "hidden",
+                position: "relative",
+                marginBottom: 16,
+              }}
+            >
+              <Swiper
+                ref={swiperRef}
+                modules={[Autoplay, Navigation, Pagination]}
+                autoplay={
+                  hasMultiple
+                    ? { delay: 3200, disableOnInteraction: false }
+                    : false
+                }
+                loop={hasMultiple}
+                slidesPerView={1}
+                pagination={{
+                  el: `.award-pagination-${gid}`,
+                  clickable: true,
+                  bulletClass: "award-bullet",
+                  bulletActiveClass: "award-bullet-active",
+                }}
+              >
                 {(award.images || []).map((img) => (
                   <SwiperSlide key={img}>
                     <a href={img} data-fancybox={gid}>
-                      <img src={img} alt={award.title} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
+                      <img
+                        src={img}
+                        alt={award.title}
+                        style={{
+                          width: "100%",
+                          aspectRatio: "4/3",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
                     </a>
                   </SwiperSlide>
                 ))}
@@ -148,15 +240,61 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
 
             {hasMultiple && (
               <>
-                <button className="award-nav-btn prev" onClick={() => swiperRef.current?.swiper.slidePrev()} aria-label="Previous">‹</button>
-                <button className="award-nav-btn next" onClick={() => swiperRef.current?.swiper.slideNext()} aria-label="Next">›</button>
+                <div
+                  className={`award-pagination-${gid}`}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: 6,
+                    marginBottom: 12,
+                  }}
+                />
+                <button
+                  className="award-nav-btn prev"
+                  onClick={() => swiperRef.current?.swiper.slidePrev()}
+                  aria-label="Previous"
+                >
+                  ‹
+                </button>
+                <button
+                  className="award-nav-btn next"
+                  onClick={() => swiperRef.current?.swiper.slideNext()}
+                  aria-label="Next"
+                >
+                  ›
+                </button>
               </>
             )}
           </>
         ) : award.videoId ? (
-          <a href={`https://www.youtube.com/watch?v=${award.videoId}`} data-fancybox={`${gid}-vid`} data-type="iframe" data-src={`https://www.youtube.com/embed/${award.videoId}?autoplay=1`} style={{ display: "block", position: "relative", borderRadius: "var(--radius)", overflow: "hidden", border: "1px solid rgba(201,168,76,0.15)" }}>
-            <img src={ytThumb(award.videoId, "hqdefault")} alt={award.title} style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} />
-            <div className="award-play-overlay"><span style={{ fontSize: "2.8rem", color: "var(--white)" }}>▶</span></div>
+          <a
+            href={`https://www.youtube.com/watch?v=${award.videoId}`}
+            data-fancybox={`${gid}-vid`}
+            data-type="iframe"
+            data-src={`https://www.youtube.com/embed/${award.videoId}?autoplay=1`}
+            style={{
+              display: "block",
+              position: "relative",
+              borderRadius: "var(--radius)",
+              overflow: "hidden",
+              border: "1px solid rgba(201,168,76,0.15)",
+            }}
+          >
+            <img
+              src={ytThumb(award.videoId, "hqdefault")}
+              alt={award.title}
+              style={{
+                width: "100%",
+                aspectRatio: "16/9",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+            <div className="award-play-overlay">
+              <span style={{ fontSize: "2.8rem", color: "var(--white)" }}>
+                ▶
+              </span>
+            </div>
           </a>
         ) : null}
       </div>

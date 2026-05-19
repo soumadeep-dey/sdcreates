@@ -675,27 +675,6 @@ export default function BrandPage() {
                             ▶
                           </span>
                         </div>
-                        <div
-                          style={{
-                            position: "absolute",
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            padding: "40px 24px 20px",
-                            background:
-                              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
-                          }}
-                        >
-                          <p
-                            style={{
-                              color: "var(--white)",
-                              fontWeight: 600,
-                              fontSize: "0.95rem",
-                            }}
-                          >
-                            {v.title.slice(0,50)}...
-                          </p>
-                        </div>
                       </a>
                     </SwiperSlide>
                   ))}
@@ -1136,7 +1115,7 @@ export default function BrandPage() {
                 </div>
                 <div style={{ position: "relative" }}>
                   <Swiper
-                    modules={[Navigation, EffectCoverflow]}
+                    modules={[Navigation, EffectCoverflow, Pagination]}
                     effect="coverflow"
                     coverflowEffect={{
                       rotate: 30,
@@ -1149,10 +1128,21 @@ export default function BrandPage() {
                       nextEl: `.bp-next-${promo.folder}`,
                       prevEl: `.bp-prev-${promo.folder}`,
                     }}
+                    pagination={{
+                      el: `.bp-pagination-${promo.folder}`,
+                      clickable: true,
+                      bulletClass: "bp-bullet",
+                      bulletActiveClass: "bp-bullet-active",
+                    }}
                     slidesPerView="auto"
                     centeredSlides
                     spaceBetween={12}
                     breakpoints={{
+                      1200: {
+                        slidesPerView: "auto",
+                        spaceBetween: 12,
+                        centeredSlides: false,
+                      },
                       768: { slidesPerView: "auto", spaceBetween: 12 },
                       480: {
                         slidesPerView: 1.2,
@@ -1250,6 +1240,16 @@ export default function BrandPage() {
                       ),
                     )}
                   </Swiper>
+                  <div
+                    className={`bp-pagination-${promo.folder}`}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: 8,
+                      marginTop: 12,
+                      marginBottom: 8,
+                    }}
+                  />
                   <button
                     className={`bp-prev-${promo.folder}`}
                     style={navBtn("left")}
