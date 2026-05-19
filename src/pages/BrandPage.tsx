@@ -617,7 +617,7 @@ export default function BrandPage() {
                   modules={[Navigation, Autoplay, Pagination]}
                   autoplay={{ delay: 3500, disableOnInteraction: false }}
                   loop
-                  slidesPerView="auto"
+                  slidesPerView={3}
                   spaceBetween={12}
                   navigation={{
                     nextEl: ".fest-next",
@@ -693,7 +693,7 @@ export default function BrandPage() {
                               fontSize: "0.95rem",
                             }}
                           >
-                            {v.title}
+                            {v.title.slice(0,50)}...
                           </p>
                         </div>
                       </a>
