@@ -2,6 +2,19 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import Contact from "@/components/sections/Contact";
+import {
+  MdMovie,
+  MdCode,
+  MdImage,
+  MdAudiotrack,
+  MdVideoLibrary,
+  MdPhotoCamera,
+  MdSettingsInputComponent,
+  MdStorage,
+  MdBuild,
+  MdTrendingUp,
+  MdShare,
+} from "react-icons/md";
 import type { Service, SkillsData } from "@/types";
 
 export default function ServicesPage() {
@@ -124,7 +137,7 @@ export default function ServicesPage() {
 
       {/* Skills */}
       {skills && (
-        <section style={{ padding: "80px 0", background: "var(--dark)" }}>
+        <section style={{ padding: "60px 0 80px", background: "var(--dark)" }}>
           <div className="container">
             <p className="section-eyebrow" style={{ textAlign: "center" }}>
               Skills
@@ -134,82 +147,171 @@ export default function ServicesPage() {
             </h2>
 
             {[
-              { title: "🎬 Creative Toolkit", groups: skills.creative },
-              { title: "💻 Engineering Stack", groups: skills.engineering },
-              { title: "📈 Growth & Marketing", groups: skills.marketing },
-            ].map(({ title, groups }) => (
-              <div key={title} style={{ marginBottom: 60 }}>
-                <h3
+              {
+                title: "🎬 Creative Toolkit",
+                groups: skills.creative,
+                icons: {
+                  "Video Production": MdMovie,
+                  "Editing & Post Production": MdVideoLibrary,
+                  "Photography & Design": MdPhotoCamera,
+                  "Audio Engineering": MdAudiotrack,
+                  "Production Equipment": MdBuild,
+                },
+              },
+              {
+                title: "💻 Engineering Stack",
+                groups: skills.engineering,
+                icons: {
+                  Languages: MdCode,
+                  Frontend: MdCode,
+                  "Mobile Development": MdSettingsInputComponent,
+                  Backend: MdSettingsInputComponent,
+                  Databases: MdStorage,
+                  "Testing & Debugging": MdBuild,
+                  "Version Control & Deployment": MdStorage,
+                },
+              },
+              {
+                title: "📈 Growth & Marketing",
+                groups: skills.marketing,
+                icons: {
+                  "Content Strategy": MdImage,
+                  "Social Media Growth": MdShare,
+                  "Brand Development": MdImage,
+                  "SEO & Performance Marketing": MdTrendingUp,
+                  "Marketing Tools & Analytics": MdBuild,
+                  "Digital Marketing": MdShare,
+                },
+              },
+            ].map(({ title, groups, icons }) => (
+              <div key={title} style={{ marginBottom: 50 }}>
+                <div style={{ marginBottom: 32 }}>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: "clamp(1rem, 4vw, 1.35rem)",
+                      fontWeight: 700,
+                      color: "var(--white)",
+                      marginBottom: 8,
+                    }}
+                  >
+                    {title}
+                  </h3>
+                  <div
+                    style={{
+                      width: 60,
+                      height: 3,
+                      background: "var(--gold)",
+                      borderRadius: 2,
+                    }}
+                  />
+                </div>
+
+                <div
                   style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: "1.15rem",
-                    fontWeight: 700,
-                    color: "var(--gold)",
-                    marginBottom: 28,
-                    paddingBottom: 12,
-                    borderBottom: "1px solid rgba(201,168,76,0.12)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "20px",
                   }}
                 >
-                  {title}
-                </h3>
-                <div
-                  style={{ display: "flex", flexDirection: "column", gap: 14 }}
-                >
-                  {groups.map((g) => (
-                    <div
-                      key={g.category}
-                      style={{
-                        width: "100%",
-                        background: "var(--dark-2)",
-                        border: "1px solid rgba(201,168,76,0.08)",
-                        borderRadius: "var(--radius)",
-                        padding: "20px 24px",
-                        display: "flex",
-                        gap: 20,
-                        alignItems: "flex-start",
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      <p
+                  {groups.map((g, idx) => {
+                    const IconComponent =
+                      icons[g.category as keyof typeof icons] || MdCode;
+                    return (
+                      <motion.div
+                        key={g.category}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1, duration: 0.4 }}
+                        viewport={{ once: true, margin: "-50px" }}
                         style={{
-                          fontSize: "0.72rem",
-                          fontWeight: 700,
-                          letterSpacing: "0.15em",
-                          textTransform: "uppercase",
-                          color: "var(--gold)",
-                          minWidth: 180,
-                          paddingTop: 4,
-                          flexShrink: 0,
-                        }}
-                      >
-                        {g.category}
-                      </p>
-                      <div
-                        style={{
+                          background:
+                            "linear-gradient(135deg, rgba(201,168,76,0.04) 0%, rgba(201,168,76,0.02) 100%)",
+                          border: "1px solid rgba(201,168,76,0.12)",
+                          borderRadius: "var(--radius)",
+                          padding: "28px 24px",
                           display: "flex",
-                          flexWrap: "wrap",
-                          gap: 6,
-                          flex: 1,
+                          flexDirection: "column",
+                          gap: 16,
+                          transition: "all 0.3s ease",
+                          width: "100%",
                         }}
                       >
-                        {g.skills.map((skill) => (
-                          <span
-                            key={skill}
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 12,
+                          }}
+                        >
+                          <IconComponent
                             style={{
-                              fontSize: "0.75rem",
-                              padding: "4px 12px",
-                              background: "rgba(201,168,76,0.05)",
-                              border: "1px solid rgba(201,168,76,0.15)",
-                              borderRadius: 2,
-                              color: "var(--white-dim)",
+                              fontSize: "1.3rem",
+                              color: "var(--gold)",
+                              flexShrink: 0,
+                            }}
+                          />
+                          <p
+                            style={{
+                              fontSize: "0.7rem",
+                              fontWeight: 700,
+                              letterSpacing: "0.2em",
+                              textTransform: "uppercase",
+                              color: "var(--white)",
+                              margin: 0,
+                              opacity: 0.95,
                             }}
                           >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
+                            {g.category}
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: 8,
+                          }}
+                        >
+                          {g.skills.map((skill) => (
+                            <span
+                              key={skill}
+                              style={{
+                                fontSize: "0.72rem",
+                                fontWeight: 500,
+                                letterSpacing: "0.1em",
+                                textTransform: "uppercase",
+                                padding: "6px 14px",
+                                border: "1px solid rgba(201,168,76,0.2)",
+                                borderRadius: 20,
+                                color: "var(--gold-light)",
+                                background: "rgba(201,168,76,0.08)",
+                                cursor: "default",
+                                transition:
+                                  "background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s",
+                              }}
+                              onMouseEnter={(e) => {
+                                const el = e.currentTarget;
+                                el.style.background = "rgba(201,168,76,0.18)";
+                                el.style.borderColor = "rgba(201,168,76,0.5)";
+                                el.style.color = "#f7dd9c";
+                                el.style.boxShadow =
+                                  "0 0 14px rgba(201,168,76,0.15)";
+                              }}
+                              onMouseLeave={(e) => {
+                                const el = e.currentTarget;
+                                el.style.background = "rgba(201,168,76,0.08)";
+                                el.style.borderColor = "rgba(201,168,76,0.2)";
+                                el.style.color = "var(--gold-light)";
+                                el.style.boxShadow = "none";
+                              }}
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
             ))}
