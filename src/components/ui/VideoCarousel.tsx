@@ -30,14 +30,7 @@ function VideoCarousel({
   if (loading) {
     return (
       <SkeletonTheme baseColor="var(--dark-2)" highlightColor="var(--dark-3)">
-        <div
-          style={{
-            display: "flex",
-            gap: 12,
-            padding: "0 48px",
-            overflow: "hidden",
-          }}
-        >
+        <div className="vc-inner" style={{ display: "flex", gap: 12, overflow: "hidden" }}>
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} style={{ flexShrink: 0, width: 220 }}>
               <Skeleton
@@ -54,7 +47,7 @@ function VideoCarousel({
   return (
     <div>
       <div style={{ position: "relative" }}>
-        <div style={{ padding: "0 48px" }}>
+        <div className="vc-inner">
           <Swiper
             ref={swiperRef}
             modules={[Navigation, Pagination]}

@@ -204,7 +204,7 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
         {(award.images || []).length > 0 ? (
           <>
             <div style={{ position: "relative", marginBottom: 4 }}>
-              <div style={{ padding: hasMultiple ? "0 44px" : 0 }}>
+              <div className={hasMultiple ? "award-inner award-inner--padded" : "award-inner"}>
                 <div
                   style={{
                     borderRadius: "var(--radius)",
