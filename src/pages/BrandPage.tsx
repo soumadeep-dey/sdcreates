@@ -1115,7 +1115,7 @@ export default function BrandPage() {
                 </div>
                 <div style={{ position: "relative" }}>
                   <Swiper
-                    modules={[Navigation, EffectCoverflow, Pagination]}
+                    modules={[Navigation, EffectCoverflow]}
                     effect="coverflow"
                     coverflowEffect={{
                       rotate: 30,
@@ -1128,15 +1128,11 @@ export default function BrandPage() {
                       nextEl: `.bp-next-${promo.folder}`,
                       prevEl: `.bp-prev-${promo.folder}`,
                     }}
-                    pagination={{
-                      el: `.bp-pagination-${promo.folder}`,
-                      clickable: true,
-                      bulletClass: "bp-bullet",
-                      bulletActiveClass: "bp-bullet-active",
-                    }}
                     slidesPerView="auto"
                     centeredSlides
                     spaceBetween={12}
+                    allowTouchMove={true}
+                    simulateTouch={true}
                     breakpoints={{
                       1200: {
                         slidesPerView: "auto",
@@ -1240,16 +1236,6 @@ export default function BrandPage() {
                       ),
                     )}
                   </Swiper>
-                  <div
-                    className={`bp-pagination-${promo.folder}`}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: 8,
-                      marginTop: 12,
-                      marginBottom: 8,
-                    }}
-                  />
                   <button
                     className={`bp-prev-${promo.folder}`}
                     style={navBtn("left")}

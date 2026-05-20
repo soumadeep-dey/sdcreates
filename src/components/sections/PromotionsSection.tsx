@@ -1,10 +1,9 @@
 import { useEffect, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay, Pagination } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useFancybox from "@/hooks/useFancybox";
@@ -125,22 +124,17 @@ export default function PromotionsSection() {
           </button>
 
           <Swiper
-            modules={[Navigation, Autoplay, Pagination]}
+            modules={[Navigation, Autoplay]}
             navigation={{
               nextEl: ".promo-flat-next",
               prevEl: ".promo-flat-prev",
-            }}
-            pagination={{
-              el: ".promo-flat-pagination",
-              clickable: true,
-              bulletClass: "promo-bullet",
-              bulletActiveClass: "promo-bullet-active",
             }}
             autoplay={{ delay: 2800, disableOnInteraction: false }}
             loop
             slidesPerView="auto"
             spaceBetween={16}
             centeredSlides={false}
+            allowTouchMove={true}
             className="promo-flat-swiper"
             style={{ paddingBottom: 8 }}
           >
@@ -280,16 +274,6 @@ export default function PromotionsSection() {
               ),
             )}
           </Swiper>
-
-          <div
-            className="promo-flat-pagination"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 8,
-              marginTop: 12,
-            }}
-          />
         </div>
       )}
 

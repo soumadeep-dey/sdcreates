@@ -52,51 +52,61 @@ export default function VideoCarousel({
   }
 
   return (
-    <div style={{ position: "relative", padding: "0 48px", paddingBottom: 48 }}>
-      <Swiper
-        ref={swiperRef}
-        modules={[Navigation, Pagination]}
-        navigation={{
-          nextEl: `.vc-next-${groupId}`,
-          prevEl: `.vc-prev-${groupId}`,
-        }}
-        pagination={{
-          el: `.vc-pagination-${groupId}`,
-          clickable: true,
-          bulletClass: "vc-bullet",
-          bulletActiveClass: "vc-bullet-active",
-        }}
-        slidesPerView="auto"
-        spaceBetween={12}
-      >
-        {videoIds.map((id) => (
-          <SwiperSlide key={id} style={{ width: 220 }}>
-            <VideoCard videoId={id} linkToPage={linkToPage} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <button
-        className={`vc-prev-${groupId}`}
-        style={navBtn("left")}
-        aria-label="Previous"
-      >
-        <FiChevronLeft size={20} />
-      </button>
-      <button
-        className={`vc-next-${groupId}`}
-        style={navBtn("right")}
-        aria-label="Next"
-      >
-        <FiChevronRight size={20} />
-      </button>
-
+    <div>
+      <div style={{ position: "relative" }}>
+        <div style={{ padding: "0 48px" }}>
+          <Swiper
+            ref={swiperRef}
+            modules={[Navigation, Pagination]}
+            navigation={{
+              nextEl: `.vc-next-${groupId}`,
+              prevEl: `.vc-prev-${groupId}`,
+            }}
+            pagination={{
+              el: `.vc-pagination-${groupId}`,
+              clickable: true,
+              bulletClass: "vc-bullet",
+              bulletActiveClass: "vc-bullet-active",
+            }}
+            slidesPerView="auto"
+            spaceBetween={12}
+            allowTouchMove={true}
+            breakpoints={{
+              1200: { slidesPerView: 4, spaceBetween: 12 },
+              768: { slidesPerView: 2, spaceBetween: 12 },
+              480: { slidesPerView: 1.5, spaceBetween: 10 },
+              0: { slidesPerView: 1.2, spaceBetween: 10 },
+            }}
+          >
+            {videoIds.map((id) => (
+              <SwiperSlide key={id}>
+                <VideoCard videoId={id} linkToPage={linkToPage} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+        <button
+          className={`vc-prev-${groupId} vc-nav-btn`}
+          style={navBtn("left")}
+          aria-label="Previous"
+        >
+          <FiChevronLeft size={20} />
+        </button>
+        <button
+          className={`vc-next-${groupId} vc-nav-btn`}
+          style={navBtn("right")}
+          aria-label="Next"
+        >
+          <FiChevronRight size={20} />
+        </button>
+      </div>
       <div
-        className={`vc-pagination-${groupId}`}
+        className={`vc-pagination-${groupId} vc-pagination-div`}
         style={{
-          display: "flex",
+          display: "none",
           justifyContent: "center",
           gap: 8,
-          marginTop: 12,
+          marginTop: 10,
         }}
       />
     </div>
@@ -181,7 +191,7 @@ function navBtn(side: "left" | "right"): React.CSSProperties {
     position: "absolute",
     top: "50%",
     transform: "translateY(-50%)",
-    [side]: 4,
+    [side]: 0,
     zIndex: 10,
     background: "rgba(8,8,8,0.8)",
     border: "1px solid rgba(201,168,76,0.35)",

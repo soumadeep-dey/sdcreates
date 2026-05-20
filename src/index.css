@@ -157,20 +157,36 @@ ul  { list-style: none; }
 .swiper-pagination-bullet { background: var(--gold) !important; }
 .fest-pagination, .pw-pagination { display: none; }
 
-/* ── Instagram-style pagination bullets ── */
-.vc-bullet, .award-bullet, .promo-bullet, .bp-bullet {
-  width: 8px !important;
-  height: 8px !important;
+/* ── Instagram-style pagination bullets (mobile only) ── */
+.vc-bullet, .promo-bullet {
+  width: 4px !important;
+  height: 4px !important;
   background: rgba(201,168,76,0.4) !important;
   border-radius: 50% !important;
-  margin: 0 4px !important;
+  margin: 0 3px !important;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: none !important; /* Hidden by default on desktop */
 }
-.vc-bullet-active, .award-bullet-active, .promo-bullet-active, .bp-bullet-active {
+.vc-bullet-active, .promo-bullet-active {
   background: var(--gold) !important;
-  width: 10px !important;
-  height: 10px !important;
+  width: 6px !important;
+  height: 6px !important;
+  display: none !important;
+}
+
+/* Pagination containers - ensure they render properly */
+.vc-pagination-div, .promo-flat-pagination {
+  display: none !important;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .vc-pagination-div, .promo-flat-pagination {
+    display: flex !important;
+  }
 }
 
 /* ── Fancybox overrides ── */
@@ -180,15 +196,15 @@ ul  { list-style: none; }
 .reel-swiper .swiper-slide { width: 180px; }
 @media (min-width: 768px) { .reel-swiper .swiper-slide { width: 220px; } }
 
+/* ── VideoCarousel sizes ── */
+.promo-flat-swiper .swiper-slide { width: 200px; }
+@media (min-width: 768px) { .promo-flat-swiper .swiper-slide { width: 220px; } }
+@media (min-width: 1200px) { .promo-flat-swiper .swiper-slide { width: 240px; } }
+
 /* ── Brand page promo swiper ── */
 .nk-promo-swiper .swiper-slide { width: 180px !important; }
 @media (min-width: 768px) { .nk-promo-swiper .swiper-slide { width: 200px !important; } }
 @media (min-width: 1200px) { .nk-promo-swiper .swiper-slide { width: 220px !important; } }
-
-/* ── Promo flat swiper ── */
-.promo-flat-swiper .swiper-slide { width: 200px; }
-@media (min-width: 768px) { .promo-flat-swiper .swiper-slide { width: 220px; } }
-@media (min-width: 1200px) { .promo-flat-swiper .swiper-slide { width: 240px; } }
 
 .promo-flat-prev, .promo-flat-next {
   color: var(--gold);
@@ -265,17 +281,35 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   .nk-promo-swiper .swiper-slide { width: 160px !important; }
 
   /* Hide nav buttons on mobile for all carousels */
-  .vc-prev-div, .vc-next-div,
+  .vc-nav-btn,
   .promo-flat-prev, .promo-flat-next,
   .award-nav-btn,
   .bp-prev-div, .bp-next-div {
     display: none !important;
   }
 
+  /* Show pagination on mobile */
+  .vc-bullet, .promo-bullet {
+    display: block !important;
+  }
+  .vc-bullet-active, .promo-bullet-active {
+    display: block !important;
+  }
+  
+  /* Show pagination containers on mobile */
+  .vc-pagination-div, .promo-flat-pagination {
+    display: flex !important;
+  }
+
+  /* Hide fancybox nav on mobile */
+  .fancybox__nav {
+    display: none !important;
+  }
+
   /* Hide nav buttons on tablet/mobile, show pagination */
   .fest-prev, .fest-next, .pw-prev, .pw-next { display: none !important; }
   .fest-pagination, .pw-pagination { display: block !important; text-align: center; }
-  .swiper-pagination-bullet { width: 8px !important; height: 8px !important; margin: 0 4px !important; }
+  .swiper-pagination-bullet { width: 4px !important; height: 4px !important; margin: 0 3px !important; }
 
   /* Work page */
   .work-filter-bar { flex-wrap: wrap; gap: 8px !important; }

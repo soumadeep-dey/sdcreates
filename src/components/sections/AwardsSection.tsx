@@ -40,9 +40,15 @@ export default function AwardsSection() {
   if (!data) return null;
 
   return (
-    <section id="awards" ref={ref} style={{ padding: "100px 0", background: "var(--dark)" }}>
+    <section
+      id="awards"
+      ref={ref}
+      style={{ padding: "100px 0", background: "var(--dark)" }}
+    >
       <div className="container">
-        <p className="section-eyebrow" style={{ textAlign: "center" }}>Recognition</p>
+        <p className="section-eyebrow" style={{ textAlign: "center" }}>
+          Recognition
+        </p>
         <h2 className="section-title" style={{ textAlign: "center" }}>
           The world
           <br />
@@ -73,11 +79,14 @@ export default function AwardsSection() {
         .award-media { position: relative; min-width: 0; overflow: hidden; }
         .award-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(8,8,8,0.85); border: 1px solid rgba(201,168,76,0.35); color: var(--gold); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; }
         .award-nav-btn:hover { background: rgba(201,168,76,0.12); }
-        .award-nav-btn.prev { left: 8px; }
-        .award-nav-btn.next { right: 8px; }
+        .award-nav-btn.prev { left: 0; }
+        .award-nav-btn.next { right: 0; }
         .award-video-thumb { position: relative; display: block; margin-top: 12px; border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(201,168,76,0.15); }
         .award-play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; }
-        @media(max-width: 768px) { .award-row { grid-template-columns: 1fr !important; gap: 28px !important; } .award-nav-btn { display: none; } }
+        .award-pagination-div { display: none; justify-content: center; gap: 6px; margin-top: 8px; margin-bottom: 8px; }
+        .award-bullet { width: 4px !important; height: 4px !important; background: rgba(201,168,76,0.4) !important; border-radius: 50% !important; cursor: pointer; transition: all 0.3s; display: inline-block; }
+        .award-bullet-active { background: var(--gold) !important; width: 6px !important; height: 6px !important; }
+        @media(max-width: 768px) { .award-row { grid-template-columns: 1fr !important; gap: 28px !important; } .award-nav-btn { display: none !important; } .award-pagination-div { display: flex !important; } }
       `}</style>
     </section>
   );
@@ -194,76 +203,76 @@ function AwardRow({ award, reverse }: { award: AwardItem; reverse: boolean }) {
       <div className="award-media">
         {(award.images || []).length > 0 ? (
           <>
-            <div
-              style={{
-                borderRadius: "var(--radius)",
-                overflow: "hidden",
-                position: "relative",
-                marginBottom: 16,
-              }}
-            >
-              <Swiper
-                ref={swiperRef}
-                modules={[Autoplay, Navigation, Pagination]}
-                autoplay={
-                  hasMultiple
-                    ? { delay: 3200, disableOnInteraction: false }
-                    : false
-                }
-                loop={hasMultiple}
-                slidesPerView={1}
-                pagination={{
-                  el: `.award-pagination-${gid}`,
-                  clickable: true,
-                  bulletClass: "award-bullet",
-                  bulletActiveClass: "award-bullet-active",
-                }}
-              >
-                {(award.images || []).map((img) => (
-                  <SwiperSlide key={img}>
-                    <a href={img} data-fancybox={gid}>
-                      <img
-                        src={img}
-                        alt={award.title}
-                        style={{
-                          width: "100%",
-                          aspectRatio: "4/3",
-                          objectFit: "cover",
-                          display: "block",
-                        }}
-                      />
-                    </a>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+            <div style={{ position: "relative", marginBottom: 4 }}>
+              <div style={{ padding: hasMultiple ? "0 44px" : 0 }}>
+                <div
+                  style={{
+                    borderRadius: "var(--radius)",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Swiper
+                    ref={swiperRef}
+                    modules={[Autoplay, Navigation, Pagination]}
+                    pagination={{
+                      el: `.award-pg-${gid}`,
+                      clickable: true,
+                      bulletClass: "award-bullet",
+                      bulletActiveClass: "award-bullet-active",
+                    }}
+                    autoplay={
+                      hasMultiple
+                        ? { delay: 3200, disableOnInteraction: false }
+                        : false
+                    }
+                    loop={hasMultiple}
+                    slidesPerView={1}
+                  >
+                    {(award.images || []).map((img) => (
+                      <SwiperSlide key={img}>
+                        <a href={img} data-fancybox={gid}>
+                          <img
+                            src={img}
+                            alt={award.title}
+                            style={{
+                              width: "100%",
+                              aspectRatio: "4/3",
+                              objectFit: "cover",
+                              display: "block",
+                            }}
+                          />
+                        </a>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </div>
+
+              {hasMultiple && (
+                <>
+                  <button
+                    className="award-nav-btn prev"
+                    onClick={() => swiperRef.current?.swiper.slidePrev()}
+                    aria-label="Previous"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    className="award-nav-btn next"
+                    onClick={() => swiperRef.current?.swiper.slideNext()}
+                    aria-label="Next"
+                  >
+                    ›
+                  </button>
+                </>
+              )}
             </div>
 
             {hasMultiple && (
-              <>
-                <div
-                  className={`award-pagination-${gid}`}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: 6,
-                    marginBottom: 12,
-                  }}
-                />
-                <button
-                  className="award-nav-btn prev"
-                  onClick={() => swiperRef.current?.swiper.slidePrev()}
-                  aria-label="Previous"
-                >
-                  ‹
-                </button>
-                <button
-                  className="award-nav-btn next"
-                  onClick={() => swiperRef.current?.swiper.slideNext()}
-                  aria-label="Next"
-                >
-                  ›
-                </button>
-              </>
+              <div
+                className={`award-pg-${gid} award-pagination-div`}
+                style={{ marginBottom: 16 }}
+              />
             )}
           </>
         ) : award.videoId ? (
