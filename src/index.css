@@ -280,7 +280,8 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   .nk-mentors-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
   .nk-pw-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   .nk-media-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
-  .nk-brands-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important; gap: 16px !important; }
+  .nk-brands-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
+  .nk-brands-grid > div { padding: 12px !important; }
 
   /* Swiper responsive */
   .nk-festival-swiper .swiper-slide { width: 180px !important; }
@@ -336,7 +337,8 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   .nk-festival-swiper .swiper-slide { width: 160px !important; }
   .nk-photowalk-swiper .swiper-slide { width: 160px !important; }
   .nk-promo-swiper .swiper-slide { width: 140px !important; }
-  .nk-brands-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important; gap: 12px !important; }
+  .nk-brands-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; }
+  .nk-brands-grid > div { padding: 10px !important; }
 
   /* Pagination styling on mobile */
   .fest-pagination, .pw-pagination { display: block !important; }
