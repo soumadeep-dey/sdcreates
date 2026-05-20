@@ -693,7 +693,10 @@ export default function BrandPage() {
                 >
                   ›
                 </button>
-                <div className="fest-pagination" style={{ position: "relative", marginTop: 12 }} />
+                <div
+                  className="fest-pagination"
+                  style={{ position: "relative", marginTop: 12 }}
+                />
               </div>
             </div>
           )}
@@ -812,18 +815,24 @@ export default function BrandPage() {
               )}
             </div>
             <div>
-              <img
-                src="/assets/namashkar-kolkata/photowalk/biggest-photowalk-in-kolkata.webp"
-                alt="Kolkata Photowalk"
-                style={{
-                  width: "100%",
-                  borderRadius: "var(--radius)",
-                  border: "1px solid rgba(201,168,76,0.15)",
-                }}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = "none";
-                }}
-              />
+              <a
+                href="/assets/namashkar-kolkata/photowalk/biggest-photowalk-in-kolkata.webp"
+                data-fancybox="pw-intro"
+                style={{ display: "block" }}
+              >
+                <img
+                  src="/assets/namashkar-kolkata/photowalk/biggest-photowalk-in-kolkata.webp"
+                  alt="Kolkata Photowalk"
+                  style={{
+                    width: "100%",
+                    borderRadius: "var(--radius)",
+                    border: "1px solid rgba(201,168,76,0.15)",
+                  }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              </a>
             </div>
           </div>
 
@@ -983,7 +992,10 @@ export default function BrandPage() {
               <button className="pw-next" style={navBtn("right")}>
                 ›
               </button>
-              <div className="pw-pagination" style={{ position: "relative", marginTop: 12 }} />
+              <div
+                className="pw-pagination"
+                style={{ position: "relative", marginTop: 12 }}
+              />
             </div>
           )}
         </div>
