@@ -950,7 +950,7 @@ export default function BrandPage() {
                 navigation={{ nextEl: ".pw-next", prevEl: ".pw-prev" }}
                 autoplay={{ delay: 3000 }}
                 loop
-                slidesPerView="auto"
+                slidesPerView={3}
                 spaceBetween={12}
                 pagination={{
                   el: ".pw-pagination",
@@ -1137,18 +1137,18 @@ export default function BrandPage() {
                       1200: {
                         slidesPerView: "auto",
                         spaceBetween: 12,
-                        centeredSlides: false,
+                        // centeredSlides: false,
                       },
                       768: { slidesPerView: "auto", spaceBetween: 12 },
                       480: {
                         slidesPerView: 1.2,
                         spaceBetween: 10,
-                        centeredSlides: true,
+                        // centeredSlides: true,
                       },
                       0: {
                         slidesPerView: 1.1,
                         spaceBetween: 8,
-                        centeredSlides: true,
+                        // centeredSlides: true,
                       },
                     }}
                     className="nk-promo-swiper"

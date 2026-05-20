@@ -19,7 +19,7 @@ interface Props {
   loading?: boolean;
 }
 
-export default function VideoCarousel({
+function VideoCarousel({
   videoIds,
   groupId,
   linkToPage = false,
@@ -112,6 +112,9 @@ export default function VideoCarousel({
     </div>
   );
 }
+
+export default VideoCarousel;
+export { VideoCarousel };
 
 function VideoCard({
   videoId,
