@@ -14,7 +14,12 @@ import {
   MdBuild,
   MdTrendingUp,
   MdShare,
+  MdWeb,
+  MdPhoneAndroid,
+  MdCloud,
+  MdBugReport,
 } from "react-icons/md";
+import { SiGithub } from "react-icons/si";
 import type { Service, SkillsData } from "@/types";
 
 export default function ServicesPage() {
@@ -163,12 +168,12 @@ export default function ServicesPage() {
                 groups: skills.engineering,
                 icons: {
                   Languages: MdCode,
-                  Frontend: MdCode,
-                  "Mobile Development": MdSettingsInputComponent,
-                  Backend: MdSettingsInputComponent,
+                  Frontend: MdWeb,
+                  "Mobile Development": MdPhoneAndroid,
+                  Backend: MdCloud,
                   Databases: MdStorage,
-                  "Testing & Debugging": MdBuild,
-                  "Version Control & Deployment": MdStorage,
+                  "Testing & Debugging": MdBugReport,
+                  "Version Control & Deployment": SiGithub,
                 },
               },
               {
