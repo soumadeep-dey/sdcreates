@@ -9,7 +9,6 @@ import {
   MdAudiotrack,
   MdVideoLibrary,
   MdPhotoCamera,
-  MdSettingsInputComponent,
   MdStorage,
   MdBuild,
   MdTrendingUp,
