@@ -94,7 +94,7 @@ export default function Footer() {
             letterSpacing: "0.1em",
           }}
         >
-          © 2026 Soumadeep Dey
+          © {new Date().getFullYear()} Soumadeep Dey
         </p>
       </div>
     </footer>
